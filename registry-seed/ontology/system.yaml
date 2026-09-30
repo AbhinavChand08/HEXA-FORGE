@@ -1,0 +1,23 @@
+# Canonical keys: system. aliases are vendor phrasings that help the suggester.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: SYSTEM.OS_VERSION
+  type: string
+  scope: GLOBAL
+  category: system
+  description: Operating system / configuration version of the device
+  aliases: [version, os version, software version]
+
+- key: SYSTEM.HOSTNAME
+  type: string
+  scope: GLOBAL
+  category: system
+  description: Hostname of the device
+  aliases: [hostname]
+
+- key: SYSTEM.DOMAIN_NAME
+  type: string
+  scope: GLOBAL
+  category: system
+  description: DNS domain name of the device
+  aliases: [ip domain-name, ip domain name]

@@ -1,0 +1,149 @@
+# Canonical keys: routing protocol settings.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+# ---- BGP
+- key: ROUTING.BGP_AS
+  type: int
+  scope: GLOBAL
+  category: routing
+  description: Local BGP autonomous system number
+  aliases: [router bgp, bgp as-number]
+
+- key: ROUTING.BGP_LOG_NEIGHBOR_CHANGES
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: BGP neighbor state changes are logged to syslog
+  aliases: [bgp log-neighbor-changes]
+
+- key: ROUTING.BGP_NEIGHBOR_AUTH
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: MD5 password authentication is configured for at least one BGP peer
+  aliases: [neighbor password, bgp md5 auth]
+
+- key: ROUTING.BGP_TTL_SECURITY
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: BGP TTL security (GTSM) is enabled for at least one BGP peer
+  aliases: [neighbor ttl-security, bgp gtsm]
+
+- key: ROUTING.BGP_MAX_PREFIX
+  type: int
+  scope: GLOBAL
+  category: routing
+  description: Maximum BGP prefix limit configured for a peer
+  aliases: [neighbor maximum-prefix, bgp maximum-prefix]
+
+- key: ROUTING.BGP_FAST_FALLOVER
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: BGP fast external fallover on link failure is enabled
+  aliases: [bgp fast-external-fallover]
+
+- key: ROUTING.BGP_NEIGHBORS
+  type: ip
+  scope: GLOBAL
+  cardinality: list
+  category: routing
+  description: BGP peer addresses configured on this device
+  aliases: [bgp neighbor, neighbor remote-as]
+
+# ---- OSPF
+- key: ROUTING.OSPF_PROCESS_ID
+  type: int
+  scope: GLOBAL
+  category: routing
+  description: OSPF process identifier configured on this device
+  aliases: [router ospf]
+
+- key: ROUTING.OSPF_AUTH_ENABLED
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: OSPF area authentication is enabled
+  aliases: [ospf area authentication]
+
+- key: ROUTING.OSPF_AUTH_MD5
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: OSPF uses MD5 message-digest authentication
+  aliases: [ospf area authentication message-digest]
+
+- key: ROUTING.OSPF_PASSIVE_DEFAULT
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: All OSPF interfaces are passive by default (no hellos sent)
+  aliases: [ospf passive-interface default]
+
+- key: ROUTING.OSPF_ROUTER_ID
+  type: ip
+  scope: GLOBAL
+  category: routing
+  description: OSPF router ID configured explicitly
+  aliases: [ospf router-id]
+
+- key: ROUTING.OSPF_PASSIVE_INTERFACES
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: routing
+  description: Interfaces configured as OSPF passive (no hello packets sent)
+  aliases: [ospf passive-interface]
+
+# ---- EIGRP
+- key: ROUTING.EIGRP_AS
+  type: string
+  scope: GLOBAL
+  category: routing
+  description: EIGRP autonomous system number or named process identifier
+  aliases: [router eigrp]
+
+- key: ROUTING.EIGRP_STUB
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: EIGRP stub routing is enabled (reduces query scope)
+  aliases: [eigrp stub]
+
+- key: ROUTING.EIGRP_PASSIVE_DEFAULT
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: All EIGRP interfaces are passive by default
+  aliases: [eigrp passive-interface default]
+
+- key: ROUTING.EIGRP_PASSIVE_INTERFACES
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: routing
+  description: Interfaces configured as EIGRP passive (no hellos sent)
+  aliases: [eigrp passive-interface]
+
+# ---- Key chains (used for routing protocol authentication)
+- key: KEY_CHAIN.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: At least one key chain is configured for routing authentication
+  aliases: [key chain]
+
+- key: KEY_CHAIN.KEY_STRING_SET
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: A key string (password) is set for at least one key chain key
+  aliases: [key-string]
+
+- key: KEY_CHAIN.LIFETIME_SET
+  type: bool
+  scope: GLOBAL
+  category: routing
+  description: Accept or send lifetime is configured on at least one key chain key
+  aliases: [accept-lifetime, send-lifetime]

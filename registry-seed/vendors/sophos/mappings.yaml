@@ -1,0 +1,527 @@
+# Reviewer-approved Sophos SFOS mappings.
+# Sophos uses XML-like nested config; parent templates declare scope or are ignored.
+
+# ---- ATP
+- {template: "ATP", ignore: true}
+- {template: "ATP > Policy <WORD>", ignore: true}
+- {template: "ATP > ThreatProtectionStatus <ENUM>", ignore: true}
+
+# ---- AdminSettings
+- {template: "AdminSettings", ignore: true}
+- {template: "AdminSettings > DefaultConfigurationLanguage <WORD>", ignore: true}
+- {template: "AdminSettings > HostnameSettings", ignore: true}
+- {template: "AdminSettings > HostnameSettings > HostName <WORD>", ignore: true}
+- {template: "AdminSettings > HostnameSettings > HostNameDesc <TEXT>", ignore: true}
+- {template: "AdminSettings > LoginDisclaimer <ENUM>", ignore: true}
+- {template: "AdminSettings > LoginDisclaimerMessage <TEXT>", emits: [{key: BANNER.LOGIN, value: "v1"}]}
+- {template: "AdminSettings > LoginSecurity", ignore: true}
+- {template: "AdminSettings > LoginSecurity > BlockLogin <ENUM>", ignore: true}
+- {template: "AdminSettings > LoginSecurity > BlockLoginSettings", ignore: true}
+- {template: "AdminSettings > LoginSecurity > BlockLoginSettings > Duration <NUM>", ignore: true}
+- {template: "AdminSettings > LoginSecurity > BlockLoginSettings > ForMinutes <NUM>", emits: [{key: LOGIN.BLOCK_FOR_SEC, value: "to_seconds(v1, 'min')"}]}
+- {template: "AdminSettings > LoginSecurity > BlockLoginSettings > UnsucceesfulAttempt <NUM>", ignore: true}
+- {template: "AdminSettings > LoginSecurity > LogoutSession <NUM>", emits: [{key: ADMIN.SESSION_TIMEOUT_SEC, value: "to_seconds(v1, 'min')"}]}
+- {template: "AdminSettings > PasswordComplexitySettings", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > IncludeAlphabeticCharacters <ENUM>", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > IncludeLowercaseCharacters <ENUM>", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > IncludeNumericCharacter <ENUM>", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > IncludeSpecialCharacter <ENUM>", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > IncludeUppercaseCharacters <ENUM>", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > MinimumPasswordLength <ENUM>", ignore: true}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexity > MinimumPasswordLengthValue <NUM>", emits: [{key: PASSWORD.MIN_LENGTH, value: "v1"}]}
+- {template: "AdminSettings > PasswordComplexitySettings > PasswordComplexityCheck <ENUM>", ignore: true}
+- {template: "AdminSettings > WebAdminSettings", ignore: true}
+- {template: "AdminSettings > WebAdminSettings > Certificate <WORD>", ignore: true}
+- {template: "AdminSettings > WebAdminSettings > HTTPSport <NUM>", ignore: true}
+- {template: "AdminSettings > WebAdminSettings > PortalCustomHostname <WORD>", ignore: true}
+- {template: "AdminSettings > WebAdminSettings > PortalRedirectMode <WORD>", ignore: true}
+- {template: "AdminSettings > WebAdminSettings > UserPortalHTTPSPort <NUM>", ignore: true}
+- {template: "AdminSettings > WebAdminSettings > VPNPortalHTTPSPort <NUM>", ignore: true}
+
+# ---- AuthenticationServer
+- {template: "AuthenticationServer", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > ADSUsername <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > ConnectionSecurity <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > DisplayNameAttribute <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > DomainName <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > EmailAddressAttribute <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > NetBIOSDomain <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > Password <SECRET>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > Port <NUM>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > SearchQueries", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > SearchQueries > Query <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > ServerAddress <IPV4>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > ServerName <WORD>", ignore: true}
+- {template: "AuthenticationServer > ActiveDirectory > ValidCertReq <ENUM>", ignore: true}
+
+# ---- BackupRestore
+- {template: "BackupRestore", ignore: true}
+- {template: "BackupRestore > ScheduleBackup", ignore: true}
+- {template: "BackupRestore > ScheduleBackup > BackupFrequency <WORD>", ignore: true}
+- {template: "BackupRestore > ScheduleBackup > BackupMode <WORD>", ignore: true}
+- {template: "BackupRestore > ScheduleBackup > EmailAddress <WORD>", ignore: true}
+- {template: "BackupRestore > ScheduleBackup > EncryptionPassword <SECRET>", ignore: true}
+- {template: "BackupRestore > ScheduleBackup > Hour <NUM>", ignore: true}
+- {template: "BackupRestore > ScheduleBackup > Minute <NUM>", ignore: true}
+
+# ---- Certificate
+- {template: "Certificate <WORD>", ignore: true}
+- {template: "Certificate <WORD> > Action <WORD>", ignore: true}
+- {template: "Certificate <WORD> > CertificateFile <WORD>", ignore: true}
+- {template: "Certificate <WORD> > CertificateFormat <WORD>", ignore: true}
+- {template: "Certificate <WORD> > Password <SECRET>", ignore: true}
+- {template: "Certificate <WORD> > PrivateKeyFile <WORD>", ignore: true}
+
+# ---- ClientlessUser
+- {template: "ClientlessUser", ignore: true}
+- {template: "ClientlessUser > Description <TEXT>", ignore: true}
+- {template: "ClientlessUser > Group <TEXT>", ignore: true}
+- {template: "ClientlessUser > IPAddress <IPV4>", ignore: true}
+- {template: "ClientlessUser > Username <WORD>", ignore: true}
+
+# ---- Configuration header
+- {template: "Configuration APIVersion <NUM> IPS_CAT_VER <NUM>", ignore: true}
+
+# ---- DHCPServer
+- {template: "DHCPServer <WORD>", ignore: true}
+- {template: "DHCPServer <WORD> > Gateway <IPV4>", ignore: true}
+- {template: "DHCPServer <WORD> > IPLeaseRange", ignore: true}
+- {template: "DHCPServer <WORD> > IPLeaseRange > EndIP <IPV4>", ignore: true}
+- {template: "DHCPServer <WORD> > IPLeaseRange > StartIP <IPV4>", ignore: true}
+- {template: "DHCPServer <WORD> > Interface <IFNAME>", ignore: true}
+- {template: "DHCPServer <WORD> > LeaseTime <NUM>", ignore: true}
+- {template: "DHCPServer <WORD> > PrimaryDNSServer <IPV4>", ignore: true}
+- {template: "DHCPServer <WORD> > SecondaryDNSServer <IPV4>", ignore: true}
+- {template: "DHCPServer <WORD> > SubnetMask <MASK>", ignore: true}
+- {template: "DHCPServer <WORD> > UseDeviceDNSSettings <ENUM>", ignore: true}
+
+# ---- DNS
+- {template: "DNS", ignore: true}
+- {template: "DNS > DNSQueryConfiguration <SECRET>", ignore: true}
+- {template: "DNS > IPv4Settings", ignore: true}
+- {template: "DNS > IPv4Settings > DNS1 <IPV4>", ignore: true}
+- {template: "DNS > IPv4Settings > DNS2 <IPV4>", ignore: true}
+- {template: "DNS > IPv4Settings > DNS3", ignore: true}
+- {template: "DNS > IPv4Settings > ObtainDNSFrom <WORD>", ignore: true}
+- {template: "DNS > IPv6Settings", ignore: true}
+- {template: "DNS > IPv6Settings > DNS1", ignore: true}
+- {template: "DNS > IPv6Settings > DNS2", ignore: true}
+- {template: "DNS > IPv6Settings > DNS3", ignore: true}
+- {template: "DNS > IPv6Settings > ObtainDNSFrom <WORD>", ignore: true}
+
+# ---- DoSSettings
+- {template: "DoSSettings", ignore: true}
+- {template: "DoSSettings > ARPHardening <ENUM>", ignore: true}
+- {template: "DoSSettings > DisableICMPRedirectPacket <ENUM>", ignore: true}
+- {template: "DoSSettings > DroppedSourceRoutedPackets <ENUM>", ignore: true}
+- {template: "DoSSettings > ICMPFlood", ignore: true}
+- {template: "DoSSettings > ICMPFlood > DestinationApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > ICMPFlood > DestinationPacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > ICMPFlood > SourceApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > ICMPFlood > SourcePacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > ICMPv6Flood", ignore: true}
+- {template: "DoSSettings > ICMPv6Flood > DestinationApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > ICMPv6Flood > DestinationPacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > ICMPv6Flood > SourceApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > ICMPv6Flood > SourcePacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > SYNFlood", ignore: true}
+- {template: "DoSSettings > SYNFlood > DestinationApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > SYNFlood > DestinationPacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > SYNFlood > SourceApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > SYNFlood > SourcePacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > TCPFlood", ignore: true}
+- {template: "DoSSettings > TCPFlood > DestinationApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > TCPFlood > DestinationPacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > TCPFlood > SourceApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > TCPFlood > SourcePacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > UDPFlood", ignore: true}
+- {template: "DoSSettings > UDPFlood > DestinationApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > UDPFlood > DestinationPacketRate <NUM>", ignore: true}
+- {template: "DoSSettings > UDPFlood > SourceApplyFlag <ENUM>", ignore: true}
+- {template: "DoSSettings > UDPFlood > SourcePacketRate <NUM>", ignore: true}
+
+# ---- Email settings
+- {template: "EmailGeneralSettings", ignore: true}
+- {template: "EmailGeneralSettings > DKIMVerification", ignore: true}
+- {template: "EmailGeneralSettings > DKIMVerification > DKIMVerificationFailed <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > DKIMVerification > InvalidDKIMSignature <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > DKIMVerification > NoDKIMSignatureFound <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > DKIMVerification > Status <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > POPIMAPTLSConfiguration", ignore: true}
+- {template: "EmailGeneralSettings > POPIMAPTLSConfiguration > DisableLegacyTLSProtocols <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > PrimaryAntivirusEngine <WORD>", ignore: true}
+- {template: "EmailGeneralSettings > RejectBasedOnIPReputation <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > SMTPDeploymentMode <WORD>", ignore: true}
+- {template: "EmailGeneralSettings > SMTPDoSSettings <ENUM>", ignore: true}
+- {template: "EmailGeneralSettings > SMTPTLSConfiguration", ignore: true}
+- {template: "EmailGeneralSettings > SMTPTLSConfiguration > DisableLegacyTLSProtocols <ENUM>", ignore: true}
+- {template: "EmailRelaySettings", ignore: true}
+- {template: "EmailRelaySettings > AuthenticatedRelay <ENUM>", ignore: true}
+- {template: "EmailRelaySettings > HostBasedRelay", ignore: true}
+- {template: "EmailRelaySettings > HostBasedRelay > AllowRelayFromHosts", ignore: true}
+- {template: "EmailRelaySettings > HostBasedRelay > AllowRelayFromHosts > Host <WORD>", ignore: true}
+
+# ---- Firewall
+- {template: "FirewallAuthenticationMethods", ignore: true}
+- {template: "FirewallAuthenticationMethods > AuthenticationServerList", ignore: true}
+- {template: "FirewallAuthenticationMethods > AuthenticationServerList > Server <WORD>", ignore: true}
+- {template: "FirewallRule <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > After <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > Description <TEXT>", ignore: true}
+- {template: "FirewallRule <WORD> > IPFamily <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > Action <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > ApplicationControl <TEXT>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DataAccounting <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DecryptHTTPS <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DestSecurityHeartbeat <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DestinationNetworks", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DestinationNetworks > Network <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DestinationZones", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > DestinationZones > Zone <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > Identity", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > Identity > Member <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > IntrusionPrevention <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > LogTraffic <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > MatchIdentity <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > MinimumDestinationHBPermitted <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > MinimumSourceHBPermitted <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > ProxyMode <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > ScanFTP <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > ScanVirus <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > Schedule <TEXT>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > Services", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > Services > Service <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > ShowCaptivePortal <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > SkipLocalDestined <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > SourceNetworks", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > SourceNetworks > Network <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > SourceSecurityHeartbeat <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > SourceZones", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > SourceZones > Zone <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > WebFilter <WORD>", ignore: true}
+- {template: "FirewallRule <WORD> > NetworkPolicy > ZeroDayProtection <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > PolicyType <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > Position <ENUM>", ignore: true}
+- {template: "FirewallRule <WORD> > Status <ENUM>", ignore: true}
+
+# ---- HA
+- {template: "HAConfigure", ignore: true}
+- {template: "HAConfigure > ConfigurationMode <WORD>", ignore: true}
+- {template: "HAConfigure > DedicatedHALink <IFNAME>", ignore: true}
+- {template: "HAConfigure > HAMode <WORD>", ignore: true}
+- {template: "HAConfigure > InitialDeviceRole <WORD>", ignore: true}
+- {template: "HAConfigure > KeepaliveAttempts <NUM>", ignore: true}
+- {template: "HAConfigure > KeepaliveRequestInterval <NUM>", ignore: true}
+- {template: "HAConfigure > MonitoredPorts", ignore: true}
+- {template: "HAConfigure > MonitoredPorts > Port <IFNAME>", ignore: true}
+- {template: "HAConfigure > NodeName <WORD>", ignore: true}
+- {template: "HAConfigure > Passphrase <SECRET>", ignore: true}
+- {template: "HAConfigure > PreferredPrimaryDevice <WORD>", ignore: true}
+
+# ---- IP hosts / IPS
+- {template: "IPHost <WORD>", ignore: true}
+- {template: "IPHost <WORD> > HostType <ENUM>", ignore: true}
+- {template: "IPHost <WORD> > IPAddress <IPV4>", ignore: true}
+- {template: "IPHost <WORD> > IPFamily <WORD>", ignore: true}
+- {template: "IPHost <WORD> > Subnet <MASK>", ignore: true}
+- {template: "IPSSwitch", ignore: true}
+- {template: "IPSSwitch > Status <ENUM>", ignore: true}
+
+# ---- NTP
+- {template: "NTPServer", ignore: true}
+- {template: "NTPServer > CustomNTPServer", ignore: true}
+- {template: "NTPServer > CustomNTPServer > Server <WORD>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "NTPServer > NTPServerType <WORD>", ignore: true}
+- {template: "NTPServer > SyncNow <ENUM>", ignore: true}
+
+# ---- Notification / SMTP alerts
+- {template: "Notification", ignore: true}
+- {template: "Notification > Authentication <ENUM>", ignore: true}
+- {template: "Notification > ConnectionSecurity <WORD>", ignore: true}
+- {template: "Notification > MailServer <WORD>", ignore: true}
+- {template: "Notification > MailServerType <WORD>", ignore: true}
+- {template: "Notification > ManagementInterface <IPV4>", ignore: true}
+- {template: "Notification > Password <SECRET>", ignore: true}
+- {template: "Notification > Port <NUM>", ignore: true}
+- {template: "Notification > SendNotificationTo <WORD>", ignore: true}
+- {template: "Notification > SenderAddress <WORD>", ignore: true}
+- {template: "Notification > Username <WORD>", ignore: true}
+- {template: "NotificationList", ignore: true}
+- {template: "NotificationList > AdminEvents", ignore: true}
+- {template: "NotificationList > AdminEvents > Email <ENUM>", ignore: true}
+- {template: "NotificationList > AdminEvents > SNMPTrap <ENUM>", ignore: true}
+- {template: "NotificationList > SecurityEvents", ignore: true}
+- {template: "NotificationList > SecurityEvents > Email <ENUM>", ignore: true}
+- {template: "NotificationList > SecurityEvents > SNMPTrap <ENUM>", ignore: true}
+- {template: "NotificationList > SystemEvents", ignore: true}
+- {template: "NotificationList > SystemEvents > Email <ENUM>", ignore: true}
+- {template: "NotificationList > SystemEvents > SNMPTrap <ENUM>", ignore: true}
+
+# ---- OTP
+- {template: "OTPSettings", ignore: true}
+- {template: "OTPSettings > AutoCreateToken <ENUM>", ignore: true}
+- {template: "OTPSettings > Groups", ignore: true}
+- {template: "OTPSettings > Groups > Group <WORD>", ignore: true}
+- {template: "OTPSettings > OTP <WORD>", ignore: true}
+- {template: "OTPSettings > OTPRequiredFor", ignore: true}
+- {template: "OTPSettings > OTPRequiredFor > IPsecRemoteAccess <ENUM>", ignore: true}
+- {template: "OTPSettings > OTPRequiredFor > SSLVPNRemoteAccess <ENUM>", ignore: true}
+- {template: "OTPSettings > OTPRequiredFor > UserPortal <ENUM>", ignore: true}
+- {template: "OTPSettings > OTPRequiredFor > WebAdminConsole <ENUM>", ignore: true}
+- {template: "OTPSettings > TimeStep <NUM>", ignore: true}
+
+# ---- Pattern / updates
+- {template: "PatternDownload", ignore: true}
+- {template: "PatternDownload > AutoUpdate <ENUM>", ignore: true}
+- {template: "PatternDownload > Interval <WORD>", ignore: true}
+
+# ---- SMTP policy
+- {template: "SMTPPolicy <WORD>", ignore: true}
+- {template: "SMTPPolicy <WORD> > Domains", ignore: true}
+- {template: "SMTPPolicy <WORD> > Domains > Domain <WORD>", ignore: true}
+- {template: "SMTPPolicy <WORD> > MalwareProtection", ignore: true}
+- {template: "SMTPPolicy <WORD> > MalwareProtection > QuarantineUnscannableContent <ENUM>", ignore: true}
+- {template: "SMTPPolicy <WORD> > MalwareProtection > Scanning <WORD>", ignore: true}
+- {template: "SMTPPolicy <WORD> > MalwareProtection > SelectedAntivirusAction <ENUM>", ignore: true}
+- {template: "SMTPPolicy <WORD> > MalwareProtection > UseZeroDayProtection <ENUM>", ignore: true}
+- {template: "SMTPPolicy <WORD> > ProtectedServer <WORD>", ignore: true}
+
+# ---- SNMP
+- {template: "SNMPAgentConfiguration <WORD>", ignore: true}
+- {template: "SNMPAgentConfiguration <WORD> > AgentPort <NUM>", ignore: true}
+- {template: "SNMPAgentConfiguration <WORD> > Configuration <ENUM>", ignore: true}
+- {template: "SNMPAgentConfiguration <WORD> > ContactPerson <WORD>", ignore: true}
+- {template: "SNMPAgentConfiguration <WORD> > Description <TEXT>", ignore: true}
+- {template: "SNMPAgentConfiguration <WORD> > Location <WORD>", ignore: true}
+- {template: "SNMPAgentConfiguration <WORD> > ManagerPort <NUM>", ignore: true}
+- {template: "SNMPv3User", ignore: true}
+- {template: "SNMPv3User > AcceptQueries <ENUM>", ignore: true}
+- {template: "SNMPv3User > AuthenticationAlgorithm <WORD>", ignore: true}
+- {template: "SNMPv3User > AuthenticationPassword <SECRET>", ignore: true}
+- {template: "SNMPv3User > AuthorizedHosts", ignore: true}
+- {template: "SNMPv3User > AuthorizedHosts > Host <IPV4>", ignore: true}
+- {template: "SNMPv3User > EncryptionAlgorithm <WORD>", ignore: true}
+- {template: "SNMPv3User > EncryptionPassword <SECRET>", ignore: true}
+- {template: "SNMPv3User > SendTraps <ENUM>", ignore: true}
+- {template: "SNMPv3User > Username <WORD>", ignore: true}
+
+# ---- SSL/TLS
+- {template: "SSLTLSInspectionRule <WORD>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > Action <WORD>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > DecryptionProfile <TEXT>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > Description <TEXT>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > DestinationZones", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > DestinationZones > Zone <WORD>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > Enable <WORD>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > LogConnections <ENUM>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > Position <WORD>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > SourceNetworks", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > SourceNetworks > Network <WORD>", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > SourceZones", ignore: true}
+- {template: "SSLTLSInspectionRule <WORD> > SourceZones > Zone <WORD>", ignore: true}
+- {template: "SSLTLSInspectionSettings", ignore: true}
+- {template: "SSLTLSInspectionSettings > CertificateAuthority <WORD>", ignore: true}
+- {template: "SSLTLSInspectionSettings > InvalidCertificate <ENUM>", ignore: true}
+- {template: "SSLTLSInspectionSettings > SSL2and3 <ENUM>", ignore: true}
+- {template: "SSLTLSInspectionSettings > TLS13Decryption <ENUM>", ignore: true}
+- {template: "SSLTLSInspectionSettings > UnsupportedCipherSuite <ENUM>", ignore: true}
+- {template: "SSLTLSInspectionSettings > UnsupportedKeyExchange <ENUM>", ignore: true}
+- {template: "SSLTunnelAccessSettings", ignore: true}
+- {template: "SSLTunnelAccessSettings > AuthenticationAlgorithm <TEXT>", ignore: true}
+- {template: "SSLTunnelAccessSettings > EncryptionAlgorithm <WORD>", ignore: true}
+- {template: "SSLTunnelAccessSettings > IdleTimeout <NUM>", ignore: true}
+- {template: "SSLTunnelAccessSettings > KeySize <NUM>", ignore: true}
+- {template: "SSLTunnelAccessSettings > OverrideHostName <WORD>", ignore: true}
+- {template: "SSLTunnelAccessSettings > Port <NUM>", ignore: true}
+- {template: "SSLTunnelAccessSettings > Protocol <WORD>", ignore: true}
+- {template: "SSLTunnelAccessSettings > SSLServerCertificate <WORD>", ignore: true}
+
+# ---- STAS / Spoof prevention
+- {template: "STAS", ignore: true}
+- {template: "STAS > Collector", ignore: true}
+- {template: "STAS > Collector > CollectorIP <IPV4>", ignore: true}
+- {template: "STAS > Collector > CollectorPort <NUM>", ignore: true}
+- {template: "STAS > RestrictClientTrafficDuringIdentityProbe <WORD>", ignore: true}
+- {template: "STAS > STASStatus <ENUM>", ignore: true}
+- {template: "SpoofPrevention", ignore: true}
+- {template: "SpoofPrevention > IPSpoofing <ENUM>", ignore: true}
+- {template: "SpoofPrevention > MACSpoofing <ENUM>", ignore: true}
+- {template: "SpoofPrevention > Status <ENUM>", ignore: true}
+- {template: "SpoofPrevention > Zones", ignore: true}
+- {template: "SpoofPrevention > Zones > Zone <WORD>", ignore: true}
+
+# ---- Syslog servers
+- {template: "SyslogServers", ignore: true}
+- {template: "SyslogServers > Server <WORD>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > Facility <WORD>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > Format <WORD>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > IPAddress <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v2"}]}
+- {template: "SyslogServers > Server <WORD> > LogSettings", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > ATP", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > ATP > ATPEvents <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiSpam", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiSpam > IMAP <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiSpam > POP3 <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiSpam > SMTP <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus > FTP <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus > HTTP <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus > HTTPS <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus > IMAP <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus > POP3 <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > AntiVirus > SMTP <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > ContentFiltering", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > ContentFiltering > Application <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > ContentFiltering > WebFilter <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > Events", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > Events > AdminEvents <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > Events > Authentication <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > Events > UserEvents <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > HeartbeatLogs", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > HeartbeatLogs > EndpointStatus <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > IPS", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > IPS > Anomaly <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > IPS > Signatures <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > DoSAttack <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > DroppedFragmentedTraffic <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > DroppedICMPRedirectedPacket <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > DroppedSourceRoutedPacket <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > Heartbeat <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > IPMACPairFiltering <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > IPSpoofPrevention <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > InvalidTraffic <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > LocalACLs <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > MACFiltering <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > PolicyRules <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > ProtectedApplicationServer <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SecurityPolicy > SSLVPNTunnel <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SystemHealth", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > SystemHealth > Usage <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > WebServerProtection", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > WebServerProtection > WAFEvents <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > Zeroday", ignore: true}
+- {template: "SyslogServers > Server <WORD> > LogSettings > Zeroday > ZerodayEvents <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > Port <NUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > SecureLogTransmission <ENUM>", ignore: true}
+- {template: "SyslogServers > Server <WORD> > Severity <WORD>", ignore: true}
+
+# ---- Threat feed / Time
+- {template: "ThirdPartyThreatFeed <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > Action <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > Authorization", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > Authorization > Password <SECRET>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > Authorization > Type <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > Authorization > Username <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > Description <TEXT>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > ExternalURL <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > IndicatorType <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > PollingInterval <WORD>", ignore: true}
+- {template: "ThirdPartyThreatFeed <WORD> > ValidateServerCertificate <ENUM>", ignore: true}
+- {template: "Time", ignore: true}
+- {template: "Time > TimeZone <WORD>", ignore: true}
+
+# ---- VPN profiles
+- {template: "VPNProfile <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > AuthenticationMode <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > DeadPeerDetection <ENUM>", ignore: true}
+- {template: "VPNProfile <WORD> > Description <TEXT>", ignore: true}
+- {template: "VPNProfile <WORD> > KeyExchange <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > KeyNegotiationTries <NUM>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase1", ignore: true}
+- {template: "VPNProfile <WORD> > Phase1 > AuthenticationAlgorithm1 <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase1 > DHGroup", ignore: true}
+- {template: "VPNProfile <WORD> > Phase1 > DHGroup > Group <NUM>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase1 > EncryptionAlgorithm1 <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase1 > KeyLife <NUM>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase2", ignore: true}
+- {template: "VPNProfile <WORD> > Phase2 > AuthenticationAlgorithm1 <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase2 > EncryptionAlgorithm1 <WORD>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase2 > KeyLife <NUM>", ignore: true}
+- {template: "VPNProfile <WORD> > Phase2 > PFSGroup <NUM>", ignore: true}
+- {template: "VPNProfile <WORD> > ReKeyConnection <ENUM>", ignore: true}
+
+# ---- WAF
+- {template: "WAFSlowHTTP", ignore: true}
+- {template: "WAFSlowHTTP > ExtensionRate <NUM>", ignore: true}
+- {template: "WAFSlowHTTP > HardLimit <NUM>", ignore: true}
+- {template: "WAFSlowHTTP > SoftLimit <NUM>", ignore: true}
+- {template: "WAFSlowHTTP > TimeoutForRequestHeaders <ENUM>", ignore: true}
+- {template: "WAFTLSVersionSettings", ignore: true}
+- {template: "WAFTLSVersionSettings > TLSVersion <WORD>", ignore: true}
+
+# ---- Web authentication / filter
+- {template: "WebAuthentication", ignore: true}
+- {template: "WebAuthentication > AuthorizeUnauthenticatedUsers <WORD>", ignore: true}
+- {template: "WebAuthentication > ShowCaptivePortalLink <ENUM>", ignore: true}
+- {template: "WebFilterAdvancedSettings", ignore: true}
+- {template: "WebFilterAdvancedSettings > MalwareScanning", ignore: true}
+- {template: "WebFilterAdvancedSettings > MalwareScanning > ActionOnMalwareScanFailure <WORD>", ignore: true}
+- {template: "WebFilterAdvancedSettings > MalwareScanning > BlockPotentiallyUnwantedApplications <ENUM>", ignore: true}
+- {template: "WebFilterAdvancedSettings > MalwareScanning > ScanEngine <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > DefaultAction <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > Description <TEXT>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > DownloadFileSizeRestrictionEnabled <NUM>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > EnableReporting <ENUM>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > EnforceSafeSearch <NUM>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > GoogAppDomainList", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > CategoryList", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > CategoryList > Category", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > CategoryList > Category > ID <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > CategoryList > Category > type <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > ExceptionList", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > FollowHTTPAction <NUM>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > HTTPAction <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > HTTPSAction <WORD>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > PolicyRuleEnabled <NUM>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > RuleList > Rule > Schedule <TEXT>", ignore: true}
+- {template: "WebFilterPolicy <WORD> > YoutubeFilterEnabled <NUM>", ignore: true}
+
+# ---- Wireless
+- {template: "WirelessNetworks <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings > ClientIsolation <ENUM>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings > Encryption <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings > FrequencyBand <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings > HideSSID <ENUM>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings > SelectActiveTime <TEXT>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AdvancedSettings > TimeBasedAccess <ENUM>", ignore: true}
+- {template: "WirelessNetworks <WORD> > AuthenticationServer <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > ClientTraffic <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > SSID <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > SecurityMode <WORD>", ignore: true}
+- {template: "WirelessNetworks <WORD> > Zone <WORD>", ignore: true}
+
+# ---- Zero-day
+- {template: "ZeroDayProtectionSettings", ignore: true}
+- {template: "ZeroDayProtectionSettings > DataCenter <WORD>", ignore: true}
+- {template: "ZeroDayProtectionSettings > ExcludeFileTypes", ignore: true}
+
+# ---- Zone / ApplianceAccess (SSH and HTTPS access per zone)
+- {template: "Zone <WORD>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > AdminServices", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > AdminServices > HTTPS <ENUM>", emits: [{key: HTTPS_SERVER.ENABLED, value: "v2 == 'Enable'"}]}
+- {template: "Zone <WORD> > ApplianceAccess > AdminServices > SSH <ENUM>", emits: [{key: SSH.ENABLED, value: "v2 == 'Enable'"}]}
+- {template: "Zone <WORD> > ApplianceAccess > AuthenticationServices", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > AuthenticationServices > CaptivePortal <WORD>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > AuthenticationServices > ClientAuthentication <WORD>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > AuthenticationServices > RadiusSSO <ENUM>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > NetworkServices", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > NetworkServices > DNS <ENUM>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > NetworkServices > Ping <ENUM>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices > DynamicRouting <ENUM>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices > SMTPRelay <ENUM>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices > SNMP <ENUM>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices > SSLVPN <WORD>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices > UserPortal <WORD>", ignore: true}
+- {template: "Zone <WORD> > ApplianceAccess > OtherServices > WebProxy <WORD>", ignore: true}
+- {template: "Zone <WORD> > Description <TEXT>", ignore: true}
+- {template: "Zone <WORD> > Type <WORD>", ignore: true}

@@ -1,0 +1,8 @@
+# Sophos Firewall (SFOS XML export)
+family: sophos
+dialect: xml
+dialect_params:
+  list_key_fields: [name]
+fingerprints:
+  - {pattern: '<Configuration APIVersion', weight: 1}
+threshold: 1

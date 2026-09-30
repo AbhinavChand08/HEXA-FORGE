@@ -1,0 +1,14 @@
+# Huawei VRP
+family: huawei
+dialect: indent
+dialect_params:
+  comment_prefixes: ['#', '!']
+  block_terminators: [quit, return]
+  negation_prefixes: [undo]
+fingerprints:
+  - {pattern: '^sysname ', weight: 1}
+  - {pattern: '^undo ', weight: 1}
+  - {pattern: '^ undo ', weight: 1}
+  - {pattern: '^info-center ', weight: 1}
+  - {pattern: '^return', weight: 1}
+threshold: 1

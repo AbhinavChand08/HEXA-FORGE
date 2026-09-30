@@ -1,0 +1,334 @@
+# Reviewer-approved FortiOS mappings.
+# FortiOS uses nested config blocks; all parent templates declare scope or are ignored.
+
+# ---- antivirus, application, dnsfilter profiles (security policies, not system settings)
+- {template: "config antivirus profile", ignore: true}
+- {template: "config antivirus profile > edit <QSTR>", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > analytics-db enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > av-virus-log enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD>", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > av-scan block", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > content-disarm enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > fortisandbox block", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > office-action enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > office-dde enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > office-embed enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > office-hylink enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > office-linked enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > office-macro enable", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > original-file-destination discard", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > config <WORD> > outbreak-prevention block", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > feature-set proxy", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > fortisandbox-mode inline", ignore: true}
+- {template: "config antivirus profile > edit <QSTR> > mobile-malware-db enable", ignore: true}
+- {template: "config antivirus settings", ignore: true}
+- {template: "config antivirus settings > grayware enable", ignore: true}
+- {template: "config antivirus settings > machine-learning-detection enable", ignore: true}
+- {template: "config application list", ignore: true}
+- {template: "config application list > edit <QSTR>", ignore: true}
+- {template: "config application list > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config application list > edit <QSTR> > config entries", ignore: true}
+- {template: "config application list > edit <QSTR> > config entries > edit <NUM>", ignore: true}
+- {template: "config application list > edit <QSTR> > config entries > edit <NUM> > action <ENUM>", ignore: true}
+- {template: "config application list > edit <QSTR> > config entries > edit <NUM> > category <NUM...>", ignore: true}
+- {template: "config application list > edit <QSTR> > config entries > edit <NUM> > log enable", ignore: true}
+- {template: "config application list > edit <QSTR> > enforce-default-app-port enable", ignore: true}
+- {template: "config application list > edit <QSTR> > other-application-log enable", ignore: true}
+- {template: "config application list > edit <QSTR> > unknown-application-log enable", ignore: true}
+
+# ---- dnsfilter
+- {template: "config dnsfilter profile", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR>", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > block-action redirect", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > block-botnet enable", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > config ftgd-dns", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > config ftgd-dns > config filters", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > config ftgd-dns > config filters > edit <NUM>", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > config ftgd-dns > config filters > edit <NUM> > action block", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > config ftgd-dns > config filters > edit <NUM> > category <NUM>", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > config ftgd-dns > config filters > edit <NUM> > log enable", ignore: true}
+- {template: "config dnsfilter profile > edit <QSTR> > log-all-domain enable", ignore: true}
+
+# ---- firewall policies / rules
+- {template: "config firewall address", ignore: true}
+- {template: "config firewall address > edit <QSTR>", ignore: true}
+- {template: "config firewall address > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config firewall address > edit <QSTR> > subnet <IPV4> <MASK>", ignore: true}
+- {template: "config firewall local-in-policy", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > action <ENUM>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > comments <TEXT>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > dstaddr <QSTR>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > intf <IFNAME>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > schedule <QSTR>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > service <QSTR...>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > srcaddr <QSTR>", ignore: true}
+- {template: "config firewall local-in-policy > edit <NUM> > virtual-patch enable", ignore: true}
+- {template: "config firewall policy", ignore: true}
+- {template: "config firewall policy > edit <NUM>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > action <ENUM>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > application-list <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > av-profile <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > comments <TEXT>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > dnsfilter-profile <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > dstaddr <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > dstintf <IFNAME>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > dstintf <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > inspection-mode proxy", ignore: true}
+- {template: "config firewall policy > edit <NUM> > internet-service enable", ignore: true}
+- {template: "config firewall policy > edit <NUM> > internet-service-name <QSTR...>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > internet-service-src enable", ignore: true}
+- {template: "config firewall policy > edit <NUM> > internet-service-src-name <QSTR...>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > ips-sensor <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > logtraffic all", ignore: true}
+- {template: "config firewall policy > edit <NUM> > name <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > nat enable", ignore: true}
+- {template: "config firewall policy > edit <NUM> > schedule <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > service <QSTR...>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > srcaddr <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > srcintf <IFNAME>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > srcintf <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > ssl-ssh-profile <QSTR>", ignore: true}
+- {template: "config firewall policy > edit <NUM> > status enable", ignore: true}
+- {template: "config firewall policy > edit <NUM> > utm-status enable", ignore: true}
+- {template: "config firewall policy > edit <NUM> > webfilter-profile <QSTR>", ignore: true}
+- {template: "config firewall service custom", ignore: true}
+- {template: "config firewall service custom > edit <QSTR>", ignore: true}
+- {template: "config firewall service custom > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config firewall service custom > edit <QSTR> > tcp-portrange <NUM>", ignore: true}
+
+# ---- IPS
+- {template: "config ips sensor", ignore: true}
+- {template: "config ips sensor > edit <QSTR>", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > block-malicious-url enable", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries > edit <NUM>", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries > edit <NUM> > action block", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries > edit <NUM> > log enable", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries > edit <NUM> > log-packet enable", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries > edit <NUM> > severity medium high critical", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > config entries > edit <NUM> > status enable", ignore: true}
+- {template: "config ips sensor > edit <QSTR> > scan-botnet-connections block", ignore: true}
+
+# ---- log eventfilter
+- {template: "config log eventfilter", ignore: true}
+- {template: "config log eventfilter > cifs enable", ignore: true}
+- {template: "config log eventfilter > connector enable", ignore: true}
+- {template: "config log eventfilter > event enable", ignore: true}
+- {template: "config log eventfilter > fortiextender enable", ignore: true}
+- {template: "config log eventfilter > rest-api enable", ignore: true}
+- {template: "config log eventfilter > router enable", ignore: true}
+- {template: "config log eventfilter > sdwan enable", ignore: true}
+- {template: "config log eventfilter > security-rating enable", ignore: true}
+- {template: "config log eventfilter > switch-controller enable", ignore: true}
+- {template: "config log eventfilter > system enable", ignore: true}
+- {template: "config log eventfilter > user enable", ignore: true}
+- {template: "config log eventfilter > vpn enable", ignore: true}
+- {template: "config log eventfilter > wireless-activity enable", ignore: true}
+
+# ---- log fortianalyzer setting
+- {template: "config log fortianalyzer setting", ignore: true}
+- {template: "config log fortianalyzer setting > enc-algorithm high", ignore: true}
+- {template: "config log fortianalyzer setting > reliable enable", ignore: true}
+- {template: "config log fortianalyzer setting > server <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v1"}]}
+- {template: "config log fortianalyzer setting > status enable", ignore: true}
+- {template: "config log fortianalyzer setting > upload-option realtime", ignore: true}
+
+# ---- log syslogd setting
+- {template: "config log syslogd setting", ignore: true}
+- {template: "config log syslogd setting > enc-algorithm high", ignore: true}
+- {template: "config log syslogd setting > facility local7", ignore: true}
+- {template: "config log syslogd setting > mode reliable", ignore: true}
+- {template: "config log syslogd setting > port <NUM>", ignore: true}
+- {template: "config log syslogd setting > server <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v1"}]}
+- {template: "config log syslogd setting > status enable", ignore: true}
+
+# ---- router static
+- {template: "config router static", ignore: true}
+- {template: "config router static > edit <NUM>", ignore: true}
+- {template: "config router static > edit <NUM> > comment <TEXT>", ignore: true}
+- {template: "config router static > edit <NUM> > device <IFNAME>", ignore: true}
+- {template: "config router static > edit <NUM> > gateway <IPV4>", ignore: true}
+
+# ---- system accprofile
+- {template: "config system accprofile", ignore: true}
+- {template: "config system accprofile > edit <QSTR>", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > comments <TEXT>", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > config fwgrp-permission", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > config fwgrp-permission > address read-write", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > config fwgrp-permission > others none", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > config fwgrp-permission > policy none", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > config fwgrp-permission > schedule none", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > config fwgrp-permission > service none", ignore: true}
+- {template: "config system accprofile > edit <QSTR> > fwgrp custom", ignore: true}
+
+# ---- system admin
+- {template: "config system admin", ignore: true}
+- {template: "config system admin > edit <QSTR>", ignore: true}
+- {template: "config system admin > edit <QSTR> > accprofile <QSTR>", ignore: true}
+- {template: "config system admin > edit <QSTR> > password <SECRET>", ignore: true}
+- {template: "config system admin > edit <QSTR> > trusthost1 <IPV4> <MASK>", ignore: true}
+- {template: "config system admin > edit <QSTR> > trusthost2 <IPV4> <MASK>", ignore: true}
+- {template: "config system admin > edit <QSTR> > vdom <QSTR>", ignore: true}
+
+# ---- system auto-install / automation
+- {template: "config system auto-install", ignore: true}
+- {template: "config system auto-install > auto-install-config disable", ignore: true}
+- {template: "config system auto-install > auto-install-image disable", ignore: true}
+- {template: "config system automation-action", ignore: true}
+- {template: "config system automation-action > edit <QSTR>", ignore: true}
+- {template: "config system automation-action > edit <QSTR> > action-type quarantine", ignore: true}
+- {template: "config system automation-action > edit <QSTR> > action-type quarantine-forticlient", ignore: true}
+- {template: "config system automation-action > edit <QSTR> > description <TEXT>", ignore: true}
+- {template: "config system automation-stitch", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR>", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR> > config actions", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR> > config actions > edit <NUM>", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR> > config actions > edit <NUM> > action <QSTR>", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR> > description <TEXT>", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR> > status enable", ignore: true}
+- {template: "config system automation-stitch > edit <QSTR> > trigger <QSTR>", ignore: true}
+- {template: "config system automation-trigger", ignore: true}
+- {template: "config system automation-trigger > edit <QSTR>", ignore: true}
+- {template: "config system automation-trigger > edit <QSTR> > description <TEXT>", ignore: true}
+- {template: "config system automation-trigger > edit <QSTR> > event-type compromised-host", ignore: true}
+- {template: "config system automation-trigger > edit <QSTR> > ioc-level high", ignore: true}
+- {template: "config system autoupdate schedule", ignore: true}
+- {template: "config system autoupdate schedule > frequency automatic", ignore: true}
+- {template: "config system autoupdate schedule > status enable", ignore: true}
+
+# ---- system CSF / fortiguard / fortisandbox
+- {template: "config system csf", ignore: true}
+- {template: "config system csf > group-name <QSTR>", ignore: true}
+- {template: "config system csf > status enable", ignore: true}
+- {template: "config system csf > upstream <QSTR>", ignore: true}
+- {template: "config system dns", ignore: true}
+- {template: "config system dns > primary <IPV4>", ignore: true}
+- {template: "config system dns > secondary <IPV4>", ignore: true}
+- {template: "config system fortiguard", ignore: true}
+- {template: "config system fortiguard > sandbox-inline-scan enable", ignore: true}
+- {template: "config system fortiguard > sandbox-region <QSTR>", ignore: true}
+- {template: "config system fortisandbox", ignore: true}
+- {template: "config system fortisandbox > status disable", ignore: true}
+
+# ---- system global (security-relevant settings)
+- {template: "config system global", ignore: true}
+- {template: "config system global > admin-https-redirect disable", emits: [{key: HTTP_SERVER.ENABLED, value: "True"}]}
+- {template: "config system global > admin-https-ssl-versions tlsv1-3", ignore: true}
+- {template: "config system global > admin-lockout-duration <NUM>", emits: [{key: LOGIN.BLOCK_FOR_SEC, value: "v1"}]}
+- {template: "config system global > admin-lockout-threshold <NUM>", ignore: true}
+- {template: "config system global > admin-port <NUM>", ignore: true}
+- {template: "config system global > admin-server-cert <QSTR>", ignore: true}
+- {template: "config system global > admin-sport <NUM>", ignore: true}
+- template: "config system global > admintimeout <NUM:min>"
+  emits: [{key: ADMIN.SESSION_TIMEOUT_SEC, value: "to_seconds(min, 'min')"}]
+- {template: "config system global > gui-cdn-usage enable", ignore: true}
+- {template: "config system global > gui-display-hostname disable", ignore: true}
+- {template: "config system global > hostname <QSTR>", ignore: true}
+- {template: "config system global > log-single-cpu-high enable", ignore: true}
+- {template: "config system global > post-login-banner enable", emits: [{key: BANNER.MOTD, value: "True"}]}
+- {template: "config system global > pre-login-banner enable", emits: [{key: BANNER.LOGIN, value: "True"}]}
+- {template: "config system global > ssl-static-key-ciphers disable", ignore: true}
+- {template: "config system global > strong-crypto enable", emits: [{key: CRYPTO.RSA_MODULUS_BITS, value: "2048"}]}
+- {template: "config system global > timezone <NUM>", ignore: true}
+
+# ---- system HA
+- {template: "config system ha", ignore: true}
+- {template: "config system ha > config ha-mgmt-interfaces", ignore: true}
+- {template: "config system ha > config ha-mgmt-interfaces > edit <NUM>", ignore: true}
+- {template: "config system ha > config ha-mgmt-interfaces > edit <NUM> > gateway <IPV4>", ignore: true}
+- {template: "config system ha > config ha-mgmt-interfaces > edit <NUM> > interface <IFNAME>", ignore: true}
+- {template: "config system ha > group-id <NUM>", ignore: true}
+- {template: "config system ha > group-name <QSTR>", ignore: true}
+- {template: "config system ha > ha-mgmt-status enable", ignore: true}
+- {template: "config system ha > hbdev <IFNAME> <NUM> <IFNAME> <NUM>", ignore: true}
+- {template: "config system ha > mode a-p", ignore: true}
+- {template: "config system ha > monitor <IFNAME...>", ignore: true}
+- {template: "config system ha > override disable", ignore: true}
+- {template: "config system ha > password <SECRET>", ignore: true}
+- {template: "config system ha > priority <NUM>", ignore: true}
+- {template: "config system ha > session-pickup enable", ignore: true}
+
+# ---- system interface
+- {template: "config system interface", ignore: true}
+- {template: "config system interface > edit <IFNAME>", scope: {type: INTERFACE, id: "{v1}"}}
+- {template: "config system interface > edit <IFNAME> > alias <TEXT>", ignore: true}
+- {template: "config system interface > edit <IFNAME> > allowaccess ping fabric", ignore: true}
+- {template: "config system interface > edit <IFNAME> > allowaccess ssh https ping snmp", ignore: true}
+- {template: "config system interface > edit <IFNAME> > description <TEXT>", ignore: true}
+- {template: "config system interface > edit <IFNAME> > ip <IPV4> <MASK>", ignore: true}
+- {template: "config system interface > edit <IFNAME> > mode static", ignore: true}
+- {template: "config system interface > edit <IFNAME> > role <ENUM>", ignore: true}
+
+# ---- system NTP
+- {template: "config system ntp", ignore: true}
+- {template: "config system ntp > config ntpserver", ignore: true}
+- {template: "config system ntp > config ntpserver > edit <NUM>", ignore: true}
+- {template: "config system ntp > config ntpserver > edit <NUM> > server <IPV4>", emits: [{key: NTP.SERVERS, value: "v2"}]}
+- {template: "config system ntp > config ntpserver > edit <NUM> > server <QSTR>", emits: [{key: NTP.SERVERS, value: "v2"}]}
+- {template: "config system ntp > ntpsync enable", ignore: true}
+- {template: "config system ntp > syncinterval <NUM>", ignore: true}
+- {template: "config system ntp > type custom", ignore: true}
+
+# ---- system password-policy
+- {template: "config system password-policy", ignore: true}
+- {template: "config system password-policy > apply-to admin-password ipsec-preshared-key", ignore: true}
+- {template: "config system password-policy > minimum-length <NUM>", emits: [{key: PASSWORD.MIN_LENGTH, value: "v1"}]}
+- {template: "config system password-policy > status enable", emits: [{key: PASSWORD.COMPLEXITY_ENABLED, value: "True"}]}
+
+# ---- system replacemsg / settings
+- {template: "config system replacemsg admin <QSTR>", ignore: true}
+- {template: "config system replacemsg admin <QSTR> > buffer <QSTR>", ignore: true}
+- {template: "config system replacemsg admin <QSTR> > format text", ignore: true}
+- {template: "config system replacemsg admin <QSTR> > header none", ignore: true}
+- {template: "config system settings", ignore: true}
+- {template: "config system settings > gui-fortigate-cloud-sandbox enable", ignore: true}
+
+# ---- system SNMP
+- {template: "config system snmp community", ignore: true}
+- {template: "config system snmp community > delete <NUM>", ignore: true}
+- {template: "config system snmp sysinfo", ignore: true}
+- {template: "config system snmp sysinfo > contact-info <QSTR>", ignore: true}
+- {template: "config system snmp sysinfo > description <TEXT>", ignore: true}
+- {template: "config system snmp sysinfo > location <TEXT>", ignore: true}
+- {template: "config system snmp sysinfo > status enable", ignore: true}
+- {template: "config system snmp sysinfo > trap-free-memory-threshold <NUM>", ignore: true}
+- {template: "config system snmp sysinfo > trap-freeable-memory-threshold <NUM>", ignore: true}
+- {template: "config system snmp user", ignore: true}
+- {template: "config system snmp user > edit <QSTR>", ignore: true}
+- {template: "config system snmp user > edit <QSTR> > auth-proto sha256", ignore: true}
+- {template: "config system snmp user > edit <QSTR> > auth-pwd <SECRET>", ignore: true}
+- {template: "config system snmp user > edit <QSTR> > notify-hosts <IPV4>", emits: [{key: SNMP.TRAP_HOSTS, value: "v2"}]}
+- {template: "config system snmp user > edit <QSTR> > priv-proto aes256", ignore: true}
+- {template: "config system snmp user > edit <QSTR> > priv-pwd <SECRET>", ignore: true}
+- {template: "config system snmp user > edit <QSTR> > queries disable", ignore: true}
+- {template: "config system snmp user > edit <QSTR> > security-level auth-priv", ignore: true}
+
+# ---- system zone
+- {template: "config system zone", ignore: true}
+- {template: "config system zone > edit <QSTR>", ignore: true}
+- {template: "config system zone > edit <QSTR> > description <TEXT>", ignore: true}
+- {template: "config system zone > edit <QSTR> > interface <IFNAME> <IFNAME>", ignore: true}
+- {template: "config system zone > edit <QSTR> > intrazone deny", ignore: true}
+
+# ---- VPN SSL settings
+- {template: "config vpn ssl settings", ignore: true}
+- {template: "config vpn ssl settings > algorithm high", ignore: true}
+- {template: "config vpn ssl settings > servercert <QSTR>", ignore: true}
+- {template: "config vpn ssl settings > ssl-max-proto-ver tls1-3", ignore: true}
+- {template: "config vpn ssl settings > ssl-min-proto-ver tls1-2", ignore: true}
+
+# ---- webfilter
+- {template: "config webfilter profile", ignore: true}
+- {template: "config webfilter profile > edit <QSTR>", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > comment <TEXT>", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > config ftgd-wf", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > config ftgd-wf > config filters", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > config ftgd-wf > config filters > edit <NUM>", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > config ftgd-wf > config filters > edit <NUM> > action block", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > config ftgd-wf > config filters > edit <NUM> > category <NUM>", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > config ftgd-wf > config filters > edit <NUM> > log enable", ignore: true}
+- {template: "config webfilter profile > edit <QSTR> > log-all-url enable", ignore: true}

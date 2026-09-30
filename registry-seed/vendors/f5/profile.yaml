@@ -1,0 +1,12 @@
+# F5 BIG-IP (tmsh)
+family: f5
+dialect: brace
+dialect_params:
+  negation_prefixes: []
+fingerprints:
+  - {pattern: '#TMSH-VERSION', weight: 1}
+  - {pattern: '^sys global-settings', weight: 1}
+  - {pattern: '^ltm ', weight: 1}
+  - {pattern: '^auth password-policy', weight: 1}
+  - {pattern: '^net self ', weight: 1}
+threshold: 1

@@ -1,0 +1,62 @@
+# Canonical keys: time (NTP).
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: NTP.SERVERS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: time
+  description: NTP servers used for clock synchronisation
+  aliases: [ntp server, time server]
+
+- key: NTP.AUTHENTICATE
+  type: bool
+  scope: GLOBAL
+  category: time
+  description: NTP authentication is enforced
+  aliases: [ntp authenticate]
+
+- key: NTP.SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: time
+  description: Interface whose address sources NTP packets
+  aliases: [ntp source]
+
+- key: NTP.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: time
+  description: NTP is configured on this device
+  aliases: [ntp]
+
+- key: NTP.AUTH_KEY_IDS
+  type: int
+  scope: GLOBAL
+  cardinality: list
+  category: time
+  description: NTP authentication key identifiers defined on this device
+  aliases: [ntp authentication-key]
+
+- key: NTP.TRUSTED_KEY_IDS
+  type: int
+  scope: GLOBAL
+  cardinality: list
+  category: time
+  description: NTP key identifiers trusted for peer synchronisation
+  aliases: [ntp trusted-key]
+
+- key: NTP.ACCESS_GROUPS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: time
+  description: ACL numbers or names controlling which peers can query or sync to this NTP server
+  aliases: [ntp access-group]
+
+- key: NTP.UPDATE_CALENDAR
+  type: bool
+  scope: GLOBAL
+  category: time
+  description: Hardware clock is periodically updated from the NTP software clock
+  aliases: [ntp update-calendar]

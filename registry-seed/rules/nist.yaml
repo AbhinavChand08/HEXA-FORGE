@@ -1,0 +1,12 @@
+# NIST SP 800-53 / SP 800-171 compliance rules for network devices.
+# Operators: eq ne lt le gt ge between in not_in contains not_contains present absent
+
+- {id: NIST-IA-3-AAA, benchmark: NIST, key: AAA.NEW_MODEL, operator: eq, expected: true, severity: high,
+   title: "NIST IA-3: Device identification and authentication (AAA enabled)"}
+- {id: NIST-IA-3-SSH, benchmark: NIST, key: SSH.VERSION, operator: eq, expected: 2, severity: high,
+   title: "NIST IA-3: SSHv2 only for remote access authentication"}
+- {id: NIST-AC-17-TELNET, benchmark: NIST, key: LINE.TRANSPORT_INPUT, operator: not_contains,
+   expected: [telnet, all], scope_selector: {type: LINE, id_regex: "^vty"}, severity: high,
+   title: "NIST AC-17: Remote access — VTY lines must not accept Telnet"}
+- {id: NIST-AU-2-SYSLOG, benchmark: NIST, key: LOGGING.HOSTS, operator: present, severity: medium,
+   title: "NIST AU-2: Audit event logging — remote syslog server required"}

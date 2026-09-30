@@ -1,0 +1,72 @@
+# Canonical keys: session management (terminal lines, admin sessions).
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: LINE.EXEC_TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: LINE
+  category: session_mgmt
+  description: Idle session timeout for a terminal line (console, vty, aux); 0 means never
+  aliases: [exec-timeout, console idle-timeout, line timeout]
+
+- key: LINE.TRANSPORT_INPUT
+  type: enum
+  scope: LINE
+  cardinality: list
+  category: session_mgmt
+  description: Protocols allowed to open an inbound session on a terminal line
+  enum_values: [ssh, telnet, none, all, rlogin, lat, pad, mop, udptn, v120]
+  aliases: [transport input, allowed protocols]
+
+- key: LINE.ACCESS_CLASS
+  type: string
+  scope: LINE
+  category: session_mgmt
+  description: Access list restricting which hosts may connect to a terminal line
+  aliases: [access-class, line acl]
+
+- key: ADMIN.SESSION_TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: session_mgmt
+  description: Idle timeout for administrative (CLI / GUI) sessions
+  aliases: [admintimeout, admin idle timeout, cli idle-timeout, admin session timeout, console-inactivity-timeout]
+
+- key: LINE.TRANSPORT_OUTPUT
+  type: enum
+  scope: LINE
+  cardinality: list
+  category: session_mgmt
+  description: Protocols allowed to open an outbound session from a terminal line
+  enum_values: [ssh, telnet, none, all, rlogin, lat, pad, mop, udptn, v120]
+  aliases: [transport output]
+
+- key: LINE.LOGIN_AUTH
+  type: bool
+  scope: LINE
+  category: session_mgmt
+  description: Authentication is required to log into this terminal line
+  aliases: [login authentication, line login]
+
+- key: LINE.LOGIN_METHOD
+  type: enum
+  scope: LINE
+  category: session_mgmt
+  description: Method used to authenticate logins on this terminal line
+  enum_values: [local, tacacs, default, none, enable, line]
+  aliases: [login method, login type]
+
+- key: LINE.LOGGING_SYNC
+  type: bool
+  scope: LINE
+  category: session_mgmt
+  description: Logging output is synchronised so it does not interrupt command entry
+  aliases: [logging synchronous]
+
+- key: LINE.EXEC_ENABLED
+  type: bool
+  scope: LINE
+  category: session_mgmt
+  description: Exec sessions (interactive shell) are enabled on this terminal line
+  aliases: [exec, no exec]

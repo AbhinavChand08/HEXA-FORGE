@@ -1,0 +1,116 @@
+# Canonical keys: management services other than SSH (remote access).
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: TELNET.ENABLED
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: Telnet server is enabled
+  aliases: [telnet server, services telnet]
+
+- key: HTTP_SERVER.ENABLED
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: Plain-text HTTP management server is enabled
+  aliases: [ip http server, web-management http, http admin access]
+
+- key: HTTPS_SERVER.ENABLED
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: HTTPS management server is enabled
+  aliases: [ip http secure-server, web-management https]
+
+- key: HTTP_SERVER.MAX_CONNECTIONS
+  type: int
+  scope: GLOBAL
+  category: remote_access
+  description: Maximum concurrent connections to the HTTP management server
+  aliases: [ip http max-connections]
+
+- key: HTTP_SERVER.ACCESS_CLASS
+  type: string
+  scope: GLOBAL
+  category: remote_access
+  description: Access list number or name restricting HTTP management server access
+  aliases: [ip http access-class]
+
+- key: HTTP_SERVER.AUTH_METHOD
+  type: enum
+  scope: GLOBAL
+  category: remote_access
+  description: Authentication method used by the HTTP management server
+  enum_values: [local, aaa, enable, tacacs]
+  aliases: [ip http authentication]
+
+- key: HTTP_SERVER.IDLE_TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: remote_access
+  description: Idle timeout for HTTP management sessions
+  aliases: [ip http timeout-policy idle]
+
+- key: IP.FINGER
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: IP finger service (TCP port 79) is enabled
+  aliases: [ip finger]
+
+- key: IP.PROXY_ARP
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: Global IP proxy-ARP (device answers ARP on behalf of remote hosts) is enabled
+  aliases: [ip proxy-arp]
+
+- key: IP.SSH_LOGGING_EVENTS
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: SSH login and logout events are logged to syslog
+  aliases: [ip ssh logging events]
+
+- key: IP.SSH_SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: remote_access
+  description: Source interface used for SSH client connections initiated by this device
+  aliases: [ip ssh source-interface]
+
+- key: IP.TFTP_SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: remote_access
+  description: Source interface used for TFTP file transfers
+  aliases: [ip tftp source-interface]
+
+- key: IP.DHCP_BOOTP_IGNORE
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: BOOTP requests inside DHCP are silently discarded
+  aliases: [ip dhcp bootp ignore]
+
+- key: IP.ADMISSION_BANNER
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: Auth-proxy banner is displayed before authentication
+  aliases: [ip admission auth-proxy-banner]
+
+- key: IP.TACACS_SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: remote_access
+  description: Source interface used for TACACS+ client traffic
+  aliases: [ip tacacs source-interface]
+
+- key: IP.RADIUS_SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: remote_access
+  description: Source interface used for RADIUS client traffic
+  aliases: [ip radius source-interface]

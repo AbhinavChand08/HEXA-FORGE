@@ -1,0 +1,91 @@
+# Canonical keys: SNMP.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: SNMP.COMMUNITIES
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: snmp
+  description: SNMP v1/v2c community strings (<SECRET> once redacted)
+  aliases: [snmp-server community, snmp community]
+
+- key: SNMP.TRAP_HOSTS
+  type: ip
+  scope: GLOBAL
+  cardinality: list
+  category: snmp
+  description: SNMP trap / inform receivers
+  aliases: [snmp-server host, trap receiver]
+
+- key: SNMP.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: snmp
+  description: SNMP agent is configured on this device
+  aliases: [snmp-server]
+
+- key: SNMP.V3_GROUPS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: snmp
+  description: SNMPv3 group names configured on this device
+  aliases: [snmp-server group]
+
+- key: SNMP.V3_AUTH_PROTOCOL
+  type: enum
+  scope: GLOBAL
+  category: snmp
+  description: SNMPv3 authentication protocol used
+  enum_values: [md5, sha, sha-256, sha-512]
+  aliases: [snmp auth-protocol]
+
+- key: SNMP.V3_PRIV_PROTOCOL
+  type: enum
+  scope: GLOBAL
+  category: snmp
+  description: SNMPv3 privacy (encryption) protocol used
+  enum_values: [des, 3des, aes-128, aes-192, aes-256]
+  aliases: [snmp priv-protocol]
+
+- key: SNMP.TRAPS_ENABLED
+  type: bool
+  scope: GLOBAL
+  category: snmp
+  description: SNMP traps or informs are enabled
+  aliases: [snmp-server enable traps]
+
+- key: SNMP.TRAP_SOURCE
+  type: string
+  scope: GLOBAL
+  category: snmp
+  description: Source interface used for SNMP trap packets
+  aliases: [snmp-server trap-source]
+
+- key: SNMP.CHASSIS_ID
+  type: string
+  scope: GLOBAL
+  category: snmp
+  description: SNMP chassis identifier string
+  aliases: [snmp-server chassis-id]
+
+- key: SNMP.IFINDEX_PERSIST
+  type: bool
+  scope: GLOBAL
+  category: snmp
+  description: Interface index values are preserved across reloads
+  aliases: [snmp-server ifindex persist]
+
+- key: SNMP.LOCATION
+  type: string
+  scope: GLOBAL
+  category: snmp
+  description: Physical location string returned in SNMP sysLocation
+  aliases: [snmp-server location]
+
+- key: SNMP.CONTACT
+  type: string
+  scope: GLOBAL
+  category: snmp
+  description: Contact information string returned in SNMP sysContact
+  aliases: [snmp-server contact]

@@ -1,0 +1,19 @@
+# Cisco IOS / IOS-XE. Vendor id = folder name.
+# Row format (design 5.4, 6.2, 9.1): see backend/app/ingest/fingerprints.py. `mapper init`
+# loads it into vendor_profile; after that the database is the source of truth.
+family: cisco
+dialect: indent
+dialect_params:
+  comment_prefixes: ['!']
+  block_terminators: [end, exit, exit-address-family, quit]
+  negation_prefixes: ['no']
+  blob_starts:
+    - {start: certificate, end: quit, mask: true, indented: true}
+fingerprints:
+  - {pattern: 'Building configuration', weight: 1}
+  - {pattern: '^service timestamps', weight: 1}
+  - {pattern: '^service password-encryption', weight: 1}
+  - {pattern: '^line vty ', weight: 1}
+  - {pattern: '^line con 0', weight: 1}
+  - {pattern: '^ip classless', weight: 1}
+threshold: 1

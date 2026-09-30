@@ -1,0 +1,10 @@
+# Canonical keys: crypto.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: CRYPTO.RSA_MODULUS_BITS
+  type: int
+  unit: bits
+  scope: GLOBAL
+  category: crypto
+  description: RSA host key modulus size
+  aliases: [crypto key generate rsa modulus, rsa key size]

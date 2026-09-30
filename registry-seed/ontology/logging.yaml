@@ -1,0 +1,53 @@
+# Canonical keys: logging.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: LOGGING.HOSTS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: logging
+  description: Remote syslog server addresses
+  aliases: [logging host, syslog host, syslog server]
+
+- key: LOGGING.TRAP_SEVERITY
+  type: int
+  scope: GLOBAL
+  category: logging
+  description: Highest syslog severity (0-7) sent to remote syslog servers
+  aliases: [logging trap, syslog level]
+
+- key: LOGGING.CONSOLE_SEVERITY
+  type: int
+  scope: GLOBAL
+  category: logging
+  description: Highest syslog severity (0-7) printed on the console
+  aliases: [logging console]
+
+- key: LOGGING.BUFFER_SIZE_BYTES
+  type: int
+  unit: bytes
+  scope: GLOBAL
+  category: logging
+  description: Size of the local in-memory log buffer
+  aliases: [logging buffered]
+
+- key: LOGGING.SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: logging
+  description: Interface whose address sources syslog packets
+  aliases: [logging source-interface]
+
+- key: LOGGING.ENABLED
+  type: bool
+  scope: GLOBAL
+  category: logging
+  description: The system logging facility is globally active
+  aliases: [logging on, logging enable]
+
+- key: LOGGING.MONITOR_SEVERITY
+  type: int
+  scope: GLOBAL
+  category: logging
+  description: Minimum syslog severity (0-7) sent to connected terminal monitors
+  aliases: [logging monitor]

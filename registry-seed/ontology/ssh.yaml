@@ -1,0 +1,93 @@
+# Canonical keys: SSH (remote access).
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: SSH.ENABLED
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: SSH server is enabled
+  aliases: [ssh server, management ssh, services ssh]
+
+- key: SSH.VERSION
+  type: int
+  scope: GLOBAL
+  category: remote_access
+  description: SSH protocol version accepted by the server
+  aliases: [ip ssh version, protocol-version, ssh version]
+
+- key: SSH.TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: remote_access
+  description: SSH negotiation / authentication timeout
+  aliases: [ip ssh time-out, ssh authentication timeout, login grace time]
+
+- key: SSH.AUTH_RETRIES
+  type: int
+  scope: GLOBAL
+  category: remote_access
+  description: Number of SSH authentication attempts allowed before disconnect
+  aliases: [authentication-retries, max auth tries, ssh retries]
+
+- key: SSH.IDLE_TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: remote_access
+  description: Idle timeout of an established SSH session
+  aliases: [ssh idle-timeout, sshd inactivity-timeout, ssh session timeout]
+
+- key: SSH.DH_MIN_BITS
+  type: int
+  unit: bits
+  scope: GLOBAL
+  category: remote_access
+  description: Minimum Diffie-Hellman group size for SSH key exchange
+  aliases: [ip ssh dh min size, dh modulus]
+
+- key: SSH.CIPHERS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: remote_access
+  description: Encryption ciphers offered by the SSH server
+  aliases: [ssh cipher, encryption algorithm, ciphers]
+
+- key: SSH.MACS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: remote_access
+  description: Message authentication code algorithms offered by the SSH server
+  aliases: [ssh mac, hmac algorithm]
+
+- key: SSH.KEX
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: remote_access
+  description: Key exchange algorithms offered by the SSH server
+  aliases: [key-exchange, kex algorithms]
+
+- key: SSH.ROOT_LOGIN
+  type: enum
+  scope: GLOBAL
+  category: remote_access
+  description: Whether the root / superuser account may log in over SSH
+  enum_values: [allow, deny, deny-password]
+  aliases: [root-login, permit root login]
+
+- key: SSH.SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: remote_access
+  description: Source interface used for SSH client connections initiated by this device
+  aliases: [ip ssh source-interface]
+
+- key: SSH.LOGGING_EVENTS
+  type: bool
+  scope: GLOBAL
+  category: remote_access
+  description: SSH session open and close events are logged to syslog
+  aliases: [ip ssh logging events]

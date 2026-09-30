@@ -1,0 +1,23 @@
+# Canonical keys: banners.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: BANNER.LOGIN
+  type: string
+  scope: GLOBAL
+  category: banner
+  description: Warning banner shown before login
+  aliases: [banner login, pre-login banner]
+
+- key: BANNER.MOTD
+  type: string
+  scope: GLOBAL
+  category: banner
+  description: Message-of-the-day banner
+  aliases: [banner motd, message of the day]
+
+- key: BANNER.EXEC
+  type: string
+  scope: GLOBAL
+  category: banner
+  description: Banner displayed after successful login to an exec session
+  aliases: [banner exec]

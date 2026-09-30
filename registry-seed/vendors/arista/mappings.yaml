@@ -1,0 +1,345 @@
+# Reviewer-approved Arista EOS mappings.
+
+# ---- AAA accounting / authentication
+- {template: "aaa accounting commands all default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_COMMANDS, value: "True"}]}
+- {template: "aaa accounting commands all default stop-only group <WORD>", emits: [{key: AAA.ACCOUNTING_COMMANDS, value: "True"}]}
+- {template: "aaa accounting exec default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_EXEC, value: "True"}]}
+- {template: "aaa accounting system default start-stop group <WORD>", ignore: true}
+- {template: "aaa authentication enable default <ENUM>", ignore: true}
+- {template: "aaa authentication enable default enable <ENUM>", ignore: true}
+- {template: "aaa authentication enable default group <WORD> <ENUM>", ignore: true}
+- template: "aaa authentication login default <ENUM:method>"
+  emits: [{key: AAA.LOGIN_METHODS, value: "[method]"}]
+- template: "aaa authentication login default group <WORD:srv> <ENUM:fallback>"
+  emits: [{key: AAA.LOGIN_METHODS, value: "[srv, fallback]"}]
+- template: "aaa authentication login default group <WORD:srv> local <ENUM>"
+  emits: [{key: AAA.LOGIN_METHODS, value: "[srv, 'local']"}]
+- {template: "aaa authentication login default local <ENUM>", emits: [{key: AAA.LOGIN_METHODS, value: "['local']"}]}
+- {template: "aaa authentication policy local allow-nopassword-remote-login", ignore: true}
+- {template: "aaa authorization commands all default <ENUM>", ignore: true}
+- {template: "aaa authorization commands all default group <ENUM> <ENUM>", ignore: true}
+- {template: "aaa authorization config-commands", ignore: true}
+- {template: "aaa authorization exec default <ENUM>", ignore: true}
+- {template: "aaa authorization exec default group <WORD> <ENUM>", ignore: true}
+- {template: "aaa authorization exec default group <WORD> local <ENUM>", ignore: true}
+- {template: "aaa group server <WORD> <WORD>", ignore: true}
+- {template: "aaa group server <WORD> <WORD> > server <IPV4> vrf <WORD>", ignore: true}
+- {template: "aaa root", ignore: true}
+- {template: "aaa root secret <NUM> <SECRET>", ignore: true}
+
+# ---- banners
+- {template: "banner login", emits: [{key: BANNER.LOGIN, value: "blob"}]}
+- {template: "banner motd", emits: [{key: BANNER.MOTD, value: "blob"}]}
+
+# ---- DNS
+- {template: "dns domain <WORD>", ignore: true}
+
+# ---- enable
+- template: "enable secret <NUM:type> <SECRET>"
+  emits: [{key: ENABLE.HASH_ALGORITHM, value: "enum_map(type, {5: 'md5', 8: 'sha256', 9: 'scrypt'})"}]
+- {template: "enable password <NUM> <SECRET>", emits: [{key: ENABLE.HASH_ALGORITHM, value: "enum_map(v1, {5: 'md5', 7: 'type7'})"}]}
+- {template: "enable password", emits: [{key: ENABLE.HASH_ALGORITHM, value: "'plaintext'"}]}
+
+# ---- hostname
+- {template: "hostname <WORD>", ignore: true}
+
+# ---- interfaces
+- {template: "interface <IFNAME>", scope: {type: INTERFACE, id: "{v1}"}}
+- template: "interface <IFNAME:ifname> > shutdown"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.SHUTDOWN, value: "not negated"}]
+- {template: "interface <IFNAME> > description <TEXT>", ignore: true}
+- {template: "interface <IFNAME> > ip address <CIDR>", ignore: true}
+- {template: "interface <IFNAME> > ip ospf authentication", ignore: true}
+- {template: "interface <IFNAME> > ip ospf authentication message-digest", ignore: true}
+- {template: "interface <IFNAME> > ip ospf authentication-key <NUM> <SECRET>", ignore: true}
+- {template: "interface <IFNAME> > ip ospf message-digest-key <NUM> md5 <NUM> <SECRET>", ignore: true}
+- {template: "interface <IFNAME> > ip ospf message-digest-key <NUM> sha256 <NUM> <SECRET>", ignore: true}
+- {template: "interface <IFNAME> > ip ospf network <ENUM>", ignore: true}
+- {template: "interface <IFNAME> > isis authentication key <NUM> <SECRET>", ignore: true}
+- {template: "interface <IFNAME> > isis authentication mode <WORD>", ignore: true}
+- {template: "interface <IFNAME> > isis enable <WORD>", ignore: true}
+- {template: "interface <IFNAME> > isis network point-to-point", ignore: true}
+- {template: "interface <IFNAME> > spanning-tree bpduguard <ENUM>", ignore: true}
+- {template: "interface <IFNAME> > spanning-tree portfast", ignore: true}
+- {template: "interface <IFNAME> > storm-control broadcast level <NUM>", ignore: true}
+- {template: "interface <IFNAME> > storm-control multicast level <NUM>", ignore: true}
+- {template: "interface <IFNAME> > switchport", ignore: true}
+- {template: "interface <IFNAME> > switchport access vlan <NUM>", ignore: true}
+- {template: "interface <IFNAME> > switchport mode <ENUM>", ignore: true}
+- {template: "interface <IFNAME> > switchport trunk allowed vlan <WORD>", ignore: true}
+- {template: "interface <IFNAME> > switchport trunk allowed vlan except <NUM>", ignore: true}
+- {template: "interface <IFNAME> > switchport trunk native vlan <NUM>", ignore: true}
+- {template: "interface <IFNAME> > vrf <WORD>", ignore: true}
+
+# ---- ip access-lists and routing
+- {template: "ip access-list <WORD>", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> deny ip <CIDR> any log", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> deny ip any any log", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit icmp <CIDR> any", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit icmp any any", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit icmp any any echo-reply", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit ip any any tracked", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit ospf any any", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit tcp <CIDR> any eq bgp", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit tcp <CIDR> any eq https", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit tcp <CIDR> any eq ssh", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit tcp <CIDR> eq bgp any", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit tcp any any established", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit udp <CIDR> any eq snmp", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit udp any any eq bfd ttl eq <NUM>", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit udp any any eq bfd-echo ttl eq <NUM>", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit udp any any eq bootps bootpc", ignore: true}
+- {template: "ip access-list <WORD> > <NUM> permit vrrp any any", ignore: true}
+- {template: "ip access-list standard <WORD>", ignore: true}
+- {template: "ip access-list standard <WORD> > <NUM> deny any log", ignore: true}
+- {template: "ip access-list standard <WORD> > <NUM> permit <CIDR>", ignore: true}
+- {template: "ip access-list standard <WORD> > <NUM> permit host <IPV4>", ignore: true}
+- {template: "ip domain lookup", ignore: true}
+- {template: "ip domain lookup source-interface <IFNAME>", ignore: true}
+- {template: "ip domain lookup vrf <ENUM> source-interface <IFNAME>", ignore: true}
+- {template: "ip name-server <IPV4>", ignore: true}
+- {template: "ip name-server vrf <ENUM> <IPV4>", ignore: true}
+- {template: "ip radius source-interface <IFNAME>", ignore: true}
+- {template: "ip radius vrf <WORD> source-interface <IFNAME>", ignore: true}
+- {template: "ip route <CIDR> <IFNAME>", ignore: true}
+- {template: "ip route <CIDR> <IPV4>", ignore: true}
+- {template: "ip route <CIDR> <IPV4> name <WORD>", ignore: true}
+- {template: "ip route vrf <WORD> <CIDR> <IPV4>", ignore: true}
+- {template: "ip route vrf <WORD> <CIDR> <IPV4> name <WORD>", ignore: true}
+- {template: "ip routing", ignore: true}
+- {template: "ip routing vrf <ENUM>", ignore: true}
+- {template: "ip tacacs source-interface <IFNAME>", ignore: true}
+- {template: "ip tacacs vrf <WORD> source-interface <IFNAME>", ignore: true}
+
+# ---- logging
+- {template: "logging buffered <NUM>", emits: [{key: LOGGING.BUFFER_SIZE_BYTES, value: "v1"}]}
+- {template: "logging buffered <NUM> <ENUM>", emits: [{key: LOGGING.BUFFER_SIZE_BYTES, value: "v1"}]}
+- {template: "logging console", ignore: true}
+- {template: "logging console <ENUM>", emits: [{key: LOGGING.CONSOLE_SEVERITY, value: "syslog_level(v1)"}]}
+- {template: "logging host <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v1"}]}
+- {template: "logging host <IPV4> <NUM>", emits: [{key: LOGGING.HOSTS, value: "v1"}]}
+- {template: "logging host <IPV4> port <NUM>", emits: [{key: LOGGING.HOSTS, value: "v1"}]}
+- {template: "logging on", ignore: true}
+- {template: "logging source-interface <IFNAME>", emits: [{key: LOGGING.SOURCE_INTERFACE, value: "v1"}]}
+- {template: "logging trap <ENUM>", emits: [{key: LOGGING.TRAP_SEVERITY, value: "syslog_level(v1)"}]}
+- {template: "logging trap alerts", emits: [{key: LOGGING.TRAP_SEVERITY, value: "1"}]}
+- {template: "logging trap critical", emits: [{key: LOGGING.TRAP_SEVERITY, value: "2"}]}
+- {template: "logging trap emergencies", emits: [{key: LOGGING.TRAP_SEVERITY, value: "0"}]}
+- {template: "logging trap errors", emits: [{key: LOGGING.TRAP_SEVERITY, value: "3"}]}
+- {template: "logging trap notifications", emits: [{key: LOGGING.TRAP_SEVERITY, value: "5"}]}
+- {template: "logging trap warnings", emits: [{key: LOGGING.TRAP_SEVERITY, value: "4"}]}
+- {template: "logging vrf <WORD> host <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v2"}]}
+- {template: "logging vrf <WORD> host <IPV4> port <NUM>", emits: [{key: LOGGING.HOSTS, value: "v2"}]}
+- {template: "logging vrf <WORD> host <IPV4> port <NUM> protocol tls ssl-profile <WORD>", emits: [{key: LOGGING.HOSTS, value: "v2"}]}
+- {template: "logging vrf <WORD> source-interface <IFNAME>", emits: [{key: LOGGING.SOURCE_INTERFACE, value: "v2"}]}
+
+# ---- management accounts
+- {template: "management accounts", ignore: true}
+- {template: "management accounts > password policy <WORD>", ignore: true}
+
+# ---- management API (HTTP/HTTPS)
+- {template: "management api http-commands", ignore: true}
+- {template: "management api http-commands > protocol http", emits: [{key: HTTP_SERVER.ENABLED, value: "not negated"}]}
+- {template: "management api http-commands > protocol https", emits: [{key: HTTPS_SERVER.ENABLED, value: "not negated"}]}
+- {template: "management api http-commands > protocol https ssl profile <WORD>", emits: [{key: HTTPS_SERVER.ENABLED, value: "not negated"}]}
+- {template: "management api http-commands > shutdown", emits: [{key: HTTP_SERVER.ENABLED, value: "negated"}]}
+- {template: "management api http-commands > vrf <WORD>", ignore: true}
+- {template: "management api http-commands > vrf <WORD> > shutdown", ignore: true}
+
+# ---- management console
+- {template: "management console", ignore: true}
+- template: "management console > idle-timeout <NUM:min>"
+  scope: {type: LINE, id: "con 0"}
+  emits: [{key: LINE.EXEC_TIMEOUT_SEC, value: "min * 60"}]
+
+# ---- management security / password policy
+- {template: "management security", ignore: true}
+- {template: "management security > password <WORD...>", emits: [{key: PASSWORD.COMPLEXITY_ENABLED, value: "not negated"}]}
+- {template: "management security > password policy <WORD>", emits: [{key: PASSWORD.COMPLEXITY_ENABLED, value: "not negated"}]}
+- {template: "management security > password policy <WORD> > maximum repetitive <NUM>", ignore: true}
+- {template: "management security > password policy <WORD> > minimum digits <NUM>", emits: [{key: PASSWORD.MIN_DIGITS, value: "v2"}]}
+- {template: "management security > password policy <WORD> > minimum length <NUM>", emits: [{key: PASSWORD.MIN_LENGTH, value: "v2"}]}
+- {template: "management security > password policy <WORD> > minimum lower <NUM>", emits: [{key: PASSWORD.MIN_LOWER, value: "v2"}]}
+- {template: "management security > password policy <WORD> > minimum special <NUM>", emits: [{key: PASSWORD.MIN_SPECIAL, value: "v2"}]}
+- {template: "management security > password policy <WORD> > minimum upper <NUM>", emits: [{key: PASSWORD.MIN_UPPER, value: "v2"}]}
+- {template: "management security > password <WORD...> > minimum digits <NUM>", emits: [{key: PASSWORD.MIN_DIGITS, value: "v2"}]}
+- {template: "management security > password <WORD...> > minimum length <NUM>", emits: [{key: PASSWORD.MIN_LENGTH, value: "v2"}]}
+- {template: "management security > password <WORD...> > minimum lower <NUM>", emits: [{key: PASSWORD.MIN_LOWER, value: "v2"}]}
+- {template: "management security > password <WORD...> > minimum special <NUM>", emits: [{key: PASSWORD.MIN_SPECIAL, value: "v2"}]}
+- {template: "management security > password <WORD...> > minimum upper <NUM>", emits: [{key: PASSWORD.MIN_UPPER, value: "v2"}]}
+- {template: "management security > session shared-secret profile <WORD>", ignore: true}
+- {template: "management security > session shared-secret profile <WORD> > secret <NUM> <NUM> <SECRET> receive-lifetime <TIME> <WORD> <NUM> <NUM> infinite transmit-lifetime <TIME> <WORD> <NUM> <NUM> infinite", ignore: true}
+- {template: "management security > session shared-secret profile <WORD> > secret <NUM> <NUM> <SECRET> receive-lifetime infinite transmit-lifetime infinite", ignore: true}
+- {template: "management security > ssl profile <WORD>", ignore: true}
+- {template: "management security > ssl profile <WORD> > certificate <WORD> key <WORD>", ignore: true}
+- {template: "management security > ssl profile <WORD> > trust certificate <WORD>", ignore: true}
+
+# ---- management SSH
+- {template: "management ssh", ignore: true}
+- {template: "management ssh > cipher aes128-ctr", emits: [{key: SSH.CIPHERS, value: "['aes128-ctr']"}]}
+- {template: "management ssh > cipher aes128-ctr aes192-ctr aes256-ctr", emits: [{key: SSH.CIPHERS, value: "['aes128-ctr', 'aes192-ctr', 'aes256-ctr']"}]}
+- {template: "management ssh > cipher aes128-ctr aes256-ctr", emits: [{key: SSH.CIPHERS, value: "['aes128-ctr', 'aes256-ctr']"}]}
+- {template: "management ssh > cipher aes256-ctr", emits: [{key: SSH.CIPHERS, value: "['aes256-ctr']"}]}
+- template: "management ssh > idle-timeout <NUM:min>"
+  emits: [{key: SSH.IDLE_TIMEOUT_SEC, value: "min * 60"}]
+- {template: "management ssh > key-exchange <WORD>", emits: [{key: SSH.KEX, value: "[v1]"}]}
+- {template: "management ssh > key-exchange diffie-hellman-group14-sha256 ecdh-sha2-nistp256", emits: [{key: SSH.KEX, value: "['diffie-hellman-group14-sha256', 'ecdh-sha2-nistp256']"}]}
+- {template: "management ssh > mac <WORD>", emits: [{key: SSH.MACS, value: "[v1]"}]}
+- {template: "management ssh > mac hmac-sha2-256 hmac-sha2-512", emits: [{key: SSH.MACS, value: "['hmac-sha2-256', 'hmac-sha2-512']"}]}
+- {template: "management ssh > shutdown", emits: [{key: SSH.ENABLED, value: "negated"}]}
+- {template: "management ssh > vrf <WORD>", ignore: true}
+- {template: "management ssh > vrf <WORD> > shutdown", ignore: true}
+
+# ---- management telnet
+- {template: "management telnet", ignore: true}
+- {template: "management telnet > shutdown", emits: [{key: TELNET.ENABLED, value: "negated"}]}
+
+# ---- NTP
+- {template: "ntp authenticate", emits: [{key: NTP.AUTHENTICATE, value: "not negated"}]}
+- {template: "ntp authentication-key <NUM> md5 <NUM> <SECRET>", ignore: true}
+- {template: "ntp authentication-key <NUM> sha1 <NUM> <SECRET>", ignore: true}
+- {template: "ntp local-interface <IFNAME>", emits: [{key: NTP.SOURCE_INTERFACE, value: "v1"}]}
+- {template: "ntp local-interface vrf <ENUM> <IFNAME>", emits: [{key: NTP.SOURCE_INTERFACE, value: "v2"}]}
+- {template: "ntp server <IPV4>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "ntp server <IPV4> key <NUM>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "ntp server <IPV4> key <NUM> <SECRET>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "ntp server <IPV4:srv> prefer", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp server <WORD>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "ntp server <WORD:srv> prefer", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp server vrf <WORD> <IPV4>", emits: [{key: NTP.SERVERS, value: "v2"}]}
+- {template: "ntp server vrf <WORD> <IPV4> key <NUM>", emits: [{key: NTP.SERVERS, value: "v2"}]}
+- {template: "ntp server vrf <WORD> <IPV4:srv> prefer", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp server vrf <WORD> <IPV4:srv> prefer key <NUM>", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp trusted-key <NUM>", ignore: true}
+
+# ---- RADIUS
+- {template: "radius-server host <IPV4> auth-port <NUM> acct-port <NUM> vrf <WORD> key <NUM> <SECRET>", ignore: true}
+- {template: "radius-server host <IPV4> vrf <WORD> key <NUM> <SECRET>", ignore: true}
+- {template: "radius-server retransmit <NUM>", ignore: true}
+- {template: "radius-server timeout <NUM>", emits: [{key: RADIUS.TIMEOUT_SEC, value: "v1"}]}
+
+# ---- routing protocols
+- {template: "router bgp <NUM>", ignore: true}
+- {template: "router bgp <NUM> > bgp log-neighbor-changes", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> description <TEXT>", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> maximum-routes <NUM>", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> password <NUM> <SECRET>", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> password shared-secret profile <WORD> algorithm <WORD>", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> remote-as <NUM>", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> ttl maximum-hops <NUM>", ignore: true}
+- {template: "router bgp <NUM> > neighbor <IPV4> update-source <IFNAME>", ignore: true}
+- {template: "router bgp <NUM> > router-id <IPV4>", ignore: true}
+- {template: "router isis <WORD>", ignore: true}
+- {template: "router isis <WORD> > address-family ipv4 unicast", ignore: true}
+- {template: "router isis <WORD> > authentication key <NUM> <SECRET>", ignore: true}
+- {template: "router isis <WORD> > authentication key <NUM> <SECRET> level-1", ignore: true}
+- {template: "router isis <WORD> > authentication key <NUM> <SECRET> level-2", ignore: true}
+- {template: "router isis <WORD> > authentication mode <WORD>", ignore: true}
+- {template: "router isis <WORD> > authentication mode md5 level-1", ignore: true}
+- {template: "router isis <WORD> > authentication mode md5 level-2", ignore: true}
+- {template: "router isis <WORD> > is-type <WORD>", ignore: true}
+- {template: "router isis <WORD> > net <WORD>", ignore: true}
+- {template: "router ospf <NUM>", ignore: true}
+- {template: "router ospf <NUM> > area <IPV4> authentication message-digest", ignore: true}
+- {template: "router ospf <NUM> > max-lsa <NUM>", ignore: true}
+- {template: "router ospf <NUM> > network <CIDR> area <IPV4>", ignore: true}
+- {template: "router ospf <NUM> > passive-interface <IFNAME>", ignore: true}
+- {template: "router ospf <NUM> > passive-interface default", ignore: true}
+- {template: "router ospf <NUM> > router-id <IPV4>", ignore: true}
+- {template: "service routing protocols model multi-agent", ignore: true}
+- {template: "service routing protocols model ribd", ignore: true}
+
+# ---- SNMP
+- {template: "snmp-server chassis-id <WORD>", ignore: true}
+- {template: "snmp-server community <SECRET> ro", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server community <SECRET> ro <NUM>", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server community <SECRET> ro <WORD>", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server community <SECRET> rw", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server community <SECRET> rw <WORD>", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server community <WORD>", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server contact <TEXT>", ignore: true}
+- {template: "snmp-server enable traps bgp", ignore: true}
+- {template: "snmp-server enable traps config", ignore: true}
+- {template: "snmp-server enable traps entity", ignore: true}
+- {template: "snmp-server enable traps isis", ignore: true}
+- {template: "snmp-server enable traps ospf", ignore: true}
+- {template: "snmp-server enable traps snmp authentication", ignore: true}
+- {template: "snmp-server enable traps snmp linkdown linkup", ignore: true}
+- {template: "snmp-server group <WORD> v3 auth", ignore: true}
+- {template: "snmp-server group <WORD> v3 noauth", ignore: true}
+- {template: "snmp-server group <WORD> v3 priv", ignore: true}
+- {template: "snmp-server group <WORD> v3 priv read <WORD>", ignore: true}
+- {template: "snmp-server group <WORD> v3 priv read <WORD> notify <WORD> access <WORD>", ignore: true}
+- {template: "snmp-server group <WORD> v3 priv read <WORD> write <WORD>", ignore: true}
+- {template: "snmp-server group <WORD> v3 priv write <WORD>", ignore: true}
+- {template: "snmp-server host <IPV4> version <WORD> <WORD>", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> vrf <WORD> version <NUM> auth snmpadmin", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> vrf <WORD> version <NUM> noauth snmpadmin", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> vrf <WORD> version <NUM> priv snmpadmin", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> vrf <WORD> version <NUM> priv user1", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> vrf <WORD> version <WORD> <WORD>", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server local-interface <IFNAME>", ignore: true}
+- {template: "snmp-server local-interface vrf <WORD> <IFNAME>", ignore: true}
+- {template: "snmp-server location <TEXT>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth md5 <SECRET> priv aes128 <SECRET>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth md5 <SECRET> priv des <SECRET>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth sha <SECRET>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth sha <SECRET> priv aes128 <SECRET>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth sha <SECRET> priv aes256 <SECRET>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth sha256 <SECRET> priv aes128 <SECRET>", ignore: true}
+- {template: "snmp-server user snmpadmin <WORD> v3 auth sha256 <SECRET> priv aes256 <SECRET>", ignore: true}
+- {template: "snmp-server user user1 group1 v3 auth sha256 <SECRET> priv aes256 <SECRET>", ignore: true}
+- {template: "snmp-server vrf <ENUM>", ignore: true}
+
+# ---- spanning-tree
+- {template: "spanning-tree bpduguard default", ignore: true}
+- {template: "spanning-tree mode <ENUM>", ignore: true}
+- {template: "spanning-tree mode mstp", ignore: true}
+- {template: "spanning-tree mode rapid-pvst", ignore: true}
+- {template: "spanning-tree mode rstp", ignore: true}
+- {template: "spanning-tree portfast default", ignore: true}
+- {template: "spanning-tree vlan <NUM>", ignore: true}
+
+# ---- system control-plane
+- {template: "system control-plane", ignore: true}
+- {template: "system control-plane > ip access-group custom-control-plane-acl in", ignore: true}
+- {template: "system control-plane > ip access-group custom-control-plane-acl vrf <WORD> in", ignore: true}
+- {template: "system control-plane > service-policy input copp-system-policy", ignore: true}
+
+# ---- TACACS
+- {template: "tacacs-server host <IPV4> key <NUM> <SECRET>", emits: [{key: TACACS.SERVERS, value: "v1"}]}
+- {template: "tacacs-server host <IPV4> vrf <WORD> key <NUM> <SECRET>", emits: [{key: TACACS.SERVERS, value: "v1"}]}
+- {template: "tacacs-server host <IPV4> vrf <WORD> key <NUM> <SECRET> port <NUM>", emits: [{key: TACACS.SERVERS, value: "v1"}]}
+- {template: "tacacs-server host <IPV4> vrf <WORD> key <NUM> <SECRET> timeout <NUM>", emits: [{key: TACACS.SERVERS, value: "v1"}]}
+- {template: "tacacs-server timeout <NUM>", emits: [{key: TACACS.TIMEOUT_SEC, value: "v1"}]}
+
+# ---- usernames
+- template: "username <WORD:user> privilege <NUM:priv> role network-admin"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}]
+- template: "username <WORD:user> privilege <NUM:priv> role network-admin nopassword"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}, {key: USER.HASH_ALGORITHM, value: "'plaintext'"}]
+- template: "username <WORD:user> privilege <NUM:priv> role network-admin secret <NUM:type> <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits:
+    - {key: USER.PRIVILEGE, value: "priv"}
+    - {key: USER.HASH_ALGORITHM, value: "enum_map(type, {5: 'md5', 8: 'sha256', 9: 'scrypt'})"}
+- template: "username <WORD:user> privilege <NUM:priv> role network-operator secret <NUM:type> <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits:
+    - {key: USER.PRIVILEGE, value: "priv"}
+    - {key: USER.HASH_ALGORITHM, value: "enum_map(type, {5: 'md5', 8: 'sha256', 9: 'scrypt'})"}
+- template: "username <WORD:user> privilege <NUM:priv> secret <NUM:type> <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits:
+    - {key: USER.PRIVILEGE, value: "priv"}
+    - {key: USER.HASH_ALGORITHM, value: "enum_map(type, {5: 'md5', 8: 'sha256', 9: 'scrypt'})"}
+
+# ---- VLANs / VRFs
+- {template: "vlan <NUM>", ignore: true}
+- {template: "vlan <NUM> > name <WORD>", ignore: true}
+- {template: "vlan <NUM> > state <ENUM>", ignore: true}
+- {template: "vrf instance <ENUM>", ignore: true}
+- {template: "vrf instance <ENUM> > description <TEXT>", ignore: true}

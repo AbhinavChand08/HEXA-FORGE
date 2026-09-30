@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Alembic
+backend/alembic/versions/*.py
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker volumes (local dev bind mounts)
+api-data/
+registry-data/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+

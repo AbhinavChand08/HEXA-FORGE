@@ -1,0 +1,49 @@
+# Phase-1 compliance rules with predefined expected values (phase 2 extracts these
+# from benchmark documents such as CIS). Operators: eq ne lt le gt ge between in
+# not_in contains not_contains present absent. scope_selector picks scope instances:
+# {type: LINE, id_regex: "^vty"}.
+
+- {id: BASE-SSH-VERSION, benchmark: CIS, key: SSH.VERSION, operator: eq, expected: 2, severity: high,
+   title: "SSH version 2 only"}
+- {id: BASE-SSH-TIMEOUT, benchmark: CIS, key: SSH.TIMEOUT_SEC, operator: le, expected: 60, severity: medium,
+   title: "SSH negotiation timeout at most 60 s"}
+- {id: BASE-SSH-RETRIES, benchmark: CIS, key: SSH.AUTH_RETRIES, operator: le, expected: 3, severity: medium,
+   title: "At most 3 SSH authentication retries"}
+#- {id: BASE-SSH-IDLE, benchmark: CIS, key: SSH.IDLE_TIMEOUT_SEC, operator: between, expected: [1, 900], severity: medium,
+#   title: "SSH idle sessions time out within 15 min"}
+- {id: BASE-LINE-TIMEOUT, benchmark: CIS, key: LINE.EXEC_TIMEOUT_SEC, operator: between, expected: [1, 600], severity: high,
+   title: "Every terminal line times out within 10 min (0 = never)"}
+- {id: BASE-VTY-NO-TELNET, benchmark: CIS, key: LINE.TRANSPORT_INPUT, operator: not_contains, expected: [telnet, all],
+   scope_selector: {type: LINE, id_regex: "^vty"}, severity: high, title: "VTY lines do not accept telnet"}
+#- {id: BASE-ADMIN-TIMEOUT, benchmark: CIS, key: ADMIN.SESSION_TIMEOUT_SEC, operator: between, expected: [1, 600], severity: medium,
+#   title: "Admin sessions time out within 10 min"}
+- {id: BASE-HTTP-OFF, benchmark: CIS, key: HTTP_SERVER.ENABLED, operator: eq, expected: false, severity: high,
+   title: "Plain HTTP management disabled"}
+- {id: BASE-PWD-ENCRYPT, benchmark: CIS, key: SERVICE.PASSWORD_ENCRYPTION, operator: eq, expected: true, severity: medium,
+   title: "Password encryption service enabled"}
+- {id: BASE-PAD-OFF, benchmark: CIS, key: SERVICE.PAD, operator: eq, expected: false, severity: low,
+   title: "PAD service disabled"}
+- {id: BASE-CDP-OFF, benchmark: CIS, key: CDP.ENABLED, operator: eq, expected: false, severity: low,
+   title: "CDP disabled globally"}
+- {id: BASE-SRC-ROUTE-OFF, benchmark: CIS, key: IP.SOURCE_ROUTE, operator: eq, expected: false, severity: medium,
+   title: "IP source routing disabled"}
+- {id: BASE-AAA, benchmark: CIS, key: AAA.NEW_MODEL, operator: eq, expected: true, severity: high,
+   title: "AAA enabled"}
+- {id: BASE-USER-HASH, benchmark: CIS, key: USER.HASH_ALGORITHM, operator: in, expected: [scrypt, sha256, sha512],
+   severity: high, title: "Local users use a strong password hash"}
+- {id: BASE-LOG-HOST, benchmark: CIS, key: LOGGING.HOSTS, operator: present, severity: medium,
+   title: "Remote syslog server configured"}
+- {id: BASE-LOG-TRAP, benchmark: CIS, key: LOGGING.TRAP_SEVERITY, operator: ge, expected: 6, severity: low,
+   title: "Syslog trap level informational or more verbose"}
+- {id: BASE-NTP-SERVER, benchmark: CIS, key: NTP.SERVERS, operator: present, severity: medium,
+   title: "NTP server configured"}
+- {id: BASE-NTP-AUTH, benchmark: CIS, key: NTP.AUTHENTICATE, operator: eq, expected: true, severity: medium,
+   title: "NTP authentication enabled"}
+- {id: BASE-SNMP-DEFAULT-COMMUNITY, benchmark: CIS, key: SNMP.COMMUNITIES, operator: not_contains,
+   expected: [public, private], severity: critical, title: "No default SNMP community strings"}
+- {id: BASE-BANNER, benchmark: CIS, key: BANNER.LOGIN, operator: present, severity: low,
+   title: "Login banner configured"}
+- {id: BASE-RSA, benchmark: CIS, key: CRYPTO.RSA_MODULUS_BITS, operator: ge, expected: 2048, severity: medium,
+   title: "RSA host key at least 2048 bits"}
+#- {id: BASE-PWD-LEN, benchmark: CIS, key: PASSWORD.MIN_LENGTH, operator: ge, expected: 14, severity: medium,
+#   title: "Minimum password length at least 14"}

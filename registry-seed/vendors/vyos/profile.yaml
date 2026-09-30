@@ -1,0 +1,13 @@
+# VyOS (set format)
+family: vyos
+dialect: set
+dialect_params:
+  comment_prefixes: ['#', '!']
+  affirm_prefixes: [set]
+  negation_prefixes: [delete]
+fingerprints:
+  - {pattern: '^set service ', weight: 1}
+  - {pattern: '^set firewall ', weight: 1}
+  - {pattern: '^set interfaces ethernet eth', weight: 1}
+  - {pattern: '^set nat ', weight: 1}
+threshold: 1

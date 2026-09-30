@@ -1,0 +1,93 @@
+# Canonical keys: services.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: SERVICE.PASSWORD_ENCRYPTION
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: Plain-text passwords in the configuration are stored encrypted
+  aliases: [service password-encryption, encrypt passwords]
+
+- key: SERVICE.PAD
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: X.25 packet assembler/disassembler service is enabled
+  aliases: [service pad]
+
+- key: SERVICE.TCP_KEEPALIVES_IN
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: TCP keepalives on inbound sessions are enabled
+  aliases: [service tcp-keepalives-in]
+
+- key: SERVICE.TCP_KEEPALIVES_OUT
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: TCP keepalives on outbound sessions are enabled
+  aliases: [service tcp-keepalives-out]
+
+- key: SERVICE.SMALL_SERVERS
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: TCP/UDP small servers (echo, discard, chargen) are enabled
+  aliases: [service tcp-small-servers, service udp-small-servers]
+
+- key: CDP.ENABLED
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: Neighbour discovery protocol (CDP / LLDP) runs globally
+  aliases: [cdp run, lldp run]
+
+- key: IP.SOURCE_ROUTE
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: IP source-routed packets are processed
+  aliases: [ip source-route, source routing]
+
+- key: IP.BOOTP_SERVER
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: BOOTP server is enabled
+  aliases: [ip bootp server]
+
+- key: SERVICE.CONFIG
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: Auto-configuration from a TFTP server is enabled
+  aliases: [service config]
+
+- key: SERVICE.DHCP
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: DHCP server or relay service is enabled
+  aliases: [service dhcp]
+
+- key: SERVICE.FINGER
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: TCP finger service is enabled
+  aliases: [service finger]
+
+- key: SERVICE.SEQUENCE_NUMBERS
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: Sequence numbers are added to syslog messages
+  aliases: [service sequence-numbers]
+
+- key: SERVICE.TIMESTAMPS
+  type: bool
+  scope: GLOBAL
+  category: services
+  description: Timestamps are added to log and debug messages
+  aliases: [service timestamps]

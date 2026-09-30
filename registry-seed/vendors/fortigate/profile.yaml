@@ -1,0 +1,15 @@
+# Fortinet FortiOS
+family: fortigate
+dialect: indent
+dialect_params:
+  comment_prefixes: ['#']
+  block_terminators: [end, next]
+  negation_prefixes: [unset]
+  affirm_prefixes: [set]
+fingerprints:
+  - {pattern: '^config system global', weight: 1}
+  - {pattern: '^config system interface', weight: 1}
+  - {pattern: '^config firewall policy', weight: 1}
+  - {pattern: '^config system admin', weight: 1}
+  - {pattern: '^config router ', weight: 1}
+threshold: 1

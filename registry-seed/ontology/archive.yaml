@@ -1,0 +1,59 @@
+# Canonical keys: configuration archive and change logging.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: ARCHIVE.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: archive
+  description: The configuration archiving feature is enabled
+  aliases: [archive]
+
+- key: ARCHIVE.LOG_CONFIG
+  type: bool
+  scope: GLOBAL
+  category: archive
+  description: Configuration change logging is enabled in the archive
+  aliases: [archive log config]
+
+- key: ARCHIVE.LOG_HIDEKEYS
+  type: bool
+  scope: GLOBAL
+  category: archive
+  description: Sensitive keys are masked in archived configuration logs
+  aliases: [archive hidekeys]
+
+- key: ARCHIVE.LOG_SEVERITY
+  type: int
+  scope: GLOBAL
+  category: archive
+  description: Minimum syslog severity for archived configuration change events
+  aliases: [archive log config logging]
+
+- key: ARCHIVE.LOG_NOTIFY_SYSLOG
+  type: bool
+  scope: GLOBAL
+  category: archive
+  description: Configuration changes are reported to syslog
+  aliases: [archive notify syslog]
+
+- key: ARCHIVE.MAX_ENTRIES
+  type: int
+  scope: GLOBAL
+  category: archive
+  description: Maximum number of archived configuration snapshots retained
+  aliases: [archive maximum]
+
+- key: ARCHIVE.PATH
+  type: string
+  scope: GLOBAL
+  category: archive
+  description: Storage path or URL for archived configuration snapshots
+  aliases: [archive path]
+
+- key: ARCHIVE.TIME_PERIOD_MIN
+  type: int
+  unit: minutes
+  scope: GLOBAL
+  category: archive
+  description: Interval in minutes at which configuration snapshots are automatically saved
+  aliases: [archive time-period]

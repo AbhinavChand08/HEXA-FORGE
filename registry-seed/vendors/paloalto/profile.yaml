@@ -1,0 +1,19 @@
+# Palo Alto PAN-OS: XML export or set format, detected per file
+family: paloalto
+dialect: null
+dialect_params:
+  list_key_fields: [name]
+  by_dialect:
+    set:
+      comment_prefixes: ['#', '!']
+      affirm_prefixes: [set]
+      negation_prefixes: [delete]
+fingerprints:
+  - {pattern: '<deviceconfig>', weight: 1}
+  - {pattern: '<config version=', weight: 1}
+  - {pattern: '<vsys>', weight: 1}
+  - {pattern: '^set deviceconfig ', weight: 1}
+  - {pattern: '^set network ', weight: 1}
+  - {pattern: '^set rulebase ', weight: 1}
+  - {pattern: '^set mgt-config ', weight: 1}
+threshold: 1

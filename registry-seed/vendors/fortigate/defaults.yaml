@@ -1,0 +1,3 @@
+# What ABSENCE of a command means on FortiOS (see cisco/defaults.yaml for the format).
+
+- {key: ADMIN.SESSION_TIMEOUT_SEC, value: 300, note: "admintimeout 5"}

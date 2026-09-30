@@ -1,0 +1,28 @@
+# What ABSENCE of a command means on Cisco IOS. Applied by the normaliser when no command
+# produced the key (scoped keys: for every scope instance seen). os_range is checked
+# against SYSTEM.OS_VERSION when the config states it. vendor_family = this folder name.
+# Values are platform defaults as commonly documented; verify for your images.
+
+- {key: SERVICE.PASSWORD_ENCRYPTION, value: false}
+- {key: HTTP_SERVER.ENABLED, value: true, note: "enabled by default on many IOS images"}
+- {key: HTTPS_SERVER.ENABLED, value: false}
+- {key: CDP.ENABLED, value: true}
+- {key: IP.SOURCE_ROUTE, value: true}
+- {key: IP.BOOTP_SERVER, value: true}
+- {key: SERVICE.PAD, value: true}
+- {key: SERVICE.TCP_KEEPALIVES_IN, value: false}
+- {key: SERVICE.TCP_KEEPALIVES_OUT, value: false}
+- {key: AAA.NEW_MODEL, value: false}
+- {key: SSH.VERSION, value: 1, note: "1.99 compatibility mode accepts SSHv1"}
+- {key: SSH.TIMEOUT_SEC, value: 120}
+- {key: SSH.AUTH_RETRIES, value: 3}
+- {key: NTP.AUTHENTICATE, value: false}
+- {key: LOGGING.TRAP_SEVERITY, value: 6}
+- {key: LOGIN.ON_FAILURE_LOG, value: false}
+- {key: LOGIN.ON_SUCCESS_LOG, value: false}
+- {key: LINE.EXEC_TIMEOUT_SEC, value: 600, note: "10 minutes"}
+- {key: ADMIN.SESSION_TIMEOUT_SEC, value: 600, note: "IOS has no global admin timeout; effective default is VTY exec-timeout (10 min)"}
+- {key: SSH.IDLE_TIMEOUT_SEC, value: 600, note: "IOS has no ssh idle-timeout command; idle timeout is governed by VTY exec-timeout default (10 min)"}
+- {key: PASSWORD.MIN_LENGTH, value: 0, note: "no minimum enforced unless security passwords min-length is configured"}
+- {key: INTERFACE.PROXY_ARP, value: true}
+- {key: INTERFACE.SHUTDOWN, value: false}

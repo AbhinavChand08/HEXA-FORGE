@@ -1,0 +1,438 @@
+# Reviewer-approved Cisco IOS mappings used to bootstrap the registry (and the suggester's kNN).
+# template: full template path; <TYPE:name> names a slot (unnamed slots are v1..vn,
+#           numbered across the whole path, parents first).
+# scope:    {type, id}; id is a '{slot}' format string. A mapping with a scope and
+#           no emits only declares scope instances (so vendor defaults can fill them).
+# emits:    key + value expression (+ optional 'when' guard). A negated command
+#           emits only if the expression reads 'negated'.
+# The folder name is the vendor_family of every entry.
+
+- {template: "version <NUM>", emits: [{key: SYSTEM.OS_VERSION, value: "tokens[1]"}]}
+- {template: "version <WORD>", emits: [{key: SYSTEM.OS_VERSION, value: "tokens[1]"}]}
+
+# ---- terminal lines: scope instances, then their settings
+- {template: "line con <NUM:lno>", scope: {type: LINE, id: "con {lno}"}}
+- {template: "line aux <NUM:lno>", scope: {type: LINE, id: "aux {lno}"}}
+- {template: "line vty <NUM:first> <NUM:last>", scope: {type: LINE, id: "vty {first} {last}"}}
+
+- template: "line con <NUM:lno> > exec-timeout <NUM:min> <NUM:sec>"
+  scope: {type: LINE, id: "con {lno}"}
+  emits: [{key: LINE.EXEC_TIMEOUT_SEC, value: "min * 60 + sec"}]
+- template: "line aux <NUM:lno> > exec-timeout <NUM:min> <NUM:sec>"
+  scope: {type: LINE, id: "aux {lno}"}
+  emits: [{key: LINE.EXEC_TIMEOUT_SEC, value: "min * 60 + sec"}]
+- template: "line vty <NUM:first> <NUM:last> > exec-timeout <NUM:min> <NUM:sec>"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.EXEC_TIMEOUT_SEC, value: "min * 60 + sec"}]
+- template: "line vty <NUM:first> <NUM:last> > transport input <ENUM:proto>"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.TRANSPORT_INPUT, value: "proto"}]
+- template: "line vty <NUM:first> <NUM:last> > transport input ssh telnet"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.TRANSPORT_INPUT, value: "tokens[2:]"}]
+- template: "line aux <NUM:lno> > transport input <ENUM:proto>"
+  scope: {type: LINE, id: "aux {lno}"}
+  emits: [{key: LINE.TRANSPORT_INPUT, value: "proto"}]
+- template: "line vty <NUM:first> <NUM:last> > access-class <NUM:acl> in"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.ACCESS_CLASS, value: "str(acl)"}]
+- template: "line vty <NUM:first> <NUM:last> > access-class <WORD:acl> in"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.ACCESS_CLASS, value: "acl"}]
+- template: "line aux <NUM:lno> > exec"
+  scope: {type: LINE, id: "aux {lno}"}
+  emits: [{key: LINE.EXEC_ENABLED, value: "not negated"}]
+- template: "line aux <NUM:lno> > transport output <ENUM:proto>"
+  scope: {type: LINE, id: "aux {lno}"}
+  emits: [{key: LINE.TRANSPORT_OUTPUT, value: "[proto]"}]
+- template: "line con <NUM:lno> > logging synchronous"
+  scope: {type: LINE, id: "con {lno}"}
+  emits: [{key: LINE.LOGGING_SYNC, value: "True"}]
+- template: "line con <NUM:lno> > login <ENUM:method>"
+  scope: {type: LINE, id: "con {lno}"}
+  emits: [{key: LINE.LOGIN_METHOD, value: "method"}]
+- template: "line con <NUM:lno> > login authentication default"
+  scope: {type: LINE, id: "con {lno}"}
+  emits: [{key: LINE.LOGIN_AUTH, value: "True"}]
+- template: "line vty <NUM:first> <NUM:last> > logging synchronous"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.LOGGING_SYNC, value: "True"}]
+- template: "line vty <NUM:first> <NUM:last> > login <ENUM:method>"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.LOGIN_METHOD, value: "method"}]
+- template: "line vty <NUM:first> <NUM:last> > login authentication default"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.LOGIN_AUTH, value: "True"}]
+- template: "line vty <NUM:first> <NUM:last> > transport output <ENUM:proto>"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.TRANSPORT_OUTPUT, value: "[proto]"}]
+- template: "line vty <NUM:first> <NUM:last> > transport output ssh"
+  scope: {type: LINE, id: "vty {first} {last}"}
+  emits: [{key: LINE.TRANSPORT_OUTPUT, value: "['ssh']"}]
+
+# ---- SSH / HTTP / crypto
+#- {template: "ip ssh version <NUM:v>", emits: [{key: SSH.VERSION, value: "v"}]}
+- {template: "ip ssh version <NUM:v>"}
+- {template: "ip ssh time-out <NUM>", emits: [{key: SSH.TIMEOUT_SEC, value: "v1"}]}
+- {template: "ip ssh authentication-retries <NUM>", emits: [{key: SSH.AUTH_RETRIES, value: "v1"}]}
+- {template: "ip ssh dh min size <NUM>", emits: [{key: SSH.DH_MIN_BITS, value: "v1"}]}
+- {template: "ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr", emits: [{key: SSH.CIPHERS, value: "tokens[5:]"}]}
+- {template: "ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512", emits: [{key: SSH.MACS, value: "tokens[5:]"}]}
+- {template: "ip ssh logging events", emits: [{key: SSH.LOGGING_EVENTS, value: "not negated"}]}
+- {template: "ip ssh source-interface <IFNAME>", emits: [{key: SSH.SOURCE_INTERFACE, value: "v1"}]}
+- {template: "ip http server", emits: [{key: HTTP_SERVER.ENABLED, value: "not negated"}]}
+- {template: "ip http secure-server", emits: [{key: HTTPS_SERVER.ENABLED, value: "not negated"}]}
+- {template: "ip http max-connections <NUM>", emits: [{key: HTTP_SERVER.MAX_CONNECTIONS, value: "v1"}]}
+- {template: "ip http access-class <NUM>", emits: [{key: HTTP_SERVER.ACCESS_CLASS, value: "str(v1)"}]}
+- {template: "ip http access-class <WORD>", emits: [{key: HTTP_SERVER.ACCESS_CLASS, value: "v1"}]}
+- {template: "ip http authentication <ENUM>", emits: [{key: HTTP_SERVER.AUTH_METHOD, value: "v1"}]}
+- {template: "ip http authentication aaa login-authentication default", emits: [{key: HTTP_SERVER.AUTH_METHOD, value: "'aaa'"}]}
+- {template: "ip http timeout-policy idle <NUM:idle> life <NUM> requests <NUM>", emits: [{key: HTTP_SERVER.IDLE_TIMEOUT_SEC, value: "idle"}]}
+- {template: "crypto key generate rsa general-keys modulus <NUM>", emits: [{key: CRYPTO.RSA_MODULUS_BITS, value: "v1"}]}
+- {template: "crypto key generate rsa modulus <NUM>", emits: [{key: CRYPTO.RSA_MODULUS_BITS, value: "v1"}]}
+- {template: "crypto key zeroize rsa", emits: [{key: CRYPTO.RSA_MODULUS_BITS, value: "0"}]}
+
+# ---- password policy
+- {template: "security passwords min-length <NUM>", emits: [{key: PASSWORD.MIN_LENGTH, value: "v1"}]}
+
+# ---- global services
+- {template: "service password-encryption", emits: [{key: SERVICE.PASSWORD_ENCRYPTION, value: "not negated"}]}
+- {template: "service pad", emits: [{key: SERVICE.PAD, value: "not negated"}]}
+- {template: "service tcp-keepalives-in", emits: [{key: SERVICE.TCP_KEEPALIVES_IN, value: "not negated"}]}
+- {template: "service tcp-keepalives-out", emits: [{key: SERVICE.TCP_KEEPALIVES_OUT, value: "not negated"}]}
+- {template: "service config", emits: [{key: SERVICE.CONFIG, value: "not negated"}]}
+- {template: "service dhcp", emits: [{key: SERVICE.DHCP, value: "not negated"}]}
+- {template: "service finger", emits: [{key: SERVICE.FINGER, value: "not negated"}]}
+- {template: "service sequence-numbers", emits: [{key: SERVICE.SEQUENCE_NUMBERS, value: "not negated"}]}
+- {template: "service tcp-small-servers", emits: [{key: SERVICE.SMALL_SERVERS, value: "not negated"}]}
+- {template: "service timestamps <WORD...>", emits: [{key: SERVICE.TIMESTAMPS, value: "not negated"}]}
+- {template: "service udp-small-servers", emits: [{key: SERVICE.SMALL_SERVERS, value: "not negated"}]}
+- {template: "cdp run", emits: [{key: CDP.ENABLED, value: "not negated"}]}
+- {template: "cdp <ENUM>", emits: [{key: CDP.ENABLED, value: "True"}]}
+- {template: "ip source-route", emits: [{key: IP.SOURCE_ROUTE, value: "not negated"}]}
+- {template: "ip bootp server", emits: [{key: IP.BOOTP_SERVER, value: "not negated"}]}
+- {template: "ip finger", emits: [{key: IP.FINGER, value: "not negated"}]}
+- {template: "ip proxy-arp", emits: [{key: IP.PROXY_ARP, value: "not negated"}]}
+- {template: "ip dhcp bootp ignore", emits: [{key: IP.DHCP_BOOTP_IGNORE, value: "True"}]}
+- {template: "ip admission auth-proxy-banner http", emits: [{key: IP.ADMISSION_BANNER, value: "True"}]}
+- {template: "ip radius source-interface <IFNAME>", emits: [{key: IP.RADIUS_SOURCE_INTERFACE, value: "v1"}]}
+- {template: "ip tftp source-interface <IFNAME>", emits: [{key: IP.TFTP_SOURCE_INTERFACE, value: "v1"}]}
+
+# ---- identity
+- {template: "hostname <WORD>", emits: [{key: SYSTEM.HOSTNAME, value: "v1"}]}
+- {template: "ip domain-name <WORD>", emits: [{key: SYSTEM.DOMAIN_NAME, value: "v1"}]}
+- {template: "ip domain name <WORD>", emits: [{key: SYSTEM.DOMAIN_NAME, value: "v1"}]}
+
+# ---- AAA / accounts
+- {template: "aaa new-model", emits: [{key: AAA.NEW_MODEL, value: "not negated"}]}
+- template: "aaa authentication login default <ENUM:method>"
+  emits: [{key: AAA.LOGIN_METHODS, value: "[method]"}]
+- template: "aaa authentication login default group <WORD:srv> <ENUM:fallback>"
+  emits: [{key: AAA.LOGIN_METHODS, value: "[srv, fallback]"}]
+- template: "aaa authentication login default group <WORD:srv> local <ENUM>"
+  emits: [{key: AAA.LOGIN_METHODS, value: "[srv, 'local']"}]
+- {template: "aaa authentication login default local <ENUM>", emits: [{key: AAA.LOGIN_METHODS, value: "['local']"}]}
+- {template: "aaa authentication enable default <ENUM>", emits: [{key: AAA.ENABLE_METHODS, value: "[v1]"}]}
+- {template: "aaa authentication enable default enable <ENUM>", emits: [{key: AAA.ENABLE_METHODS, value: "['enable', v1]"}]}
+- {template: "aaa authentication enable default group <WORD> <ENUM>", emits: [{key: AAA.ENABLE_METHODS, value: "[v1, v2]"}]}
+- {template: "aaa accounting exec default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_EXEC, value: "True"}]}
+- {template: "aaa accounting exec default stop-only group <WORD>", emits: [{key: AAA.ACCOUNTING_EXEC, value: "True"}]}
+- {template: "aaa accounting commands <NUM> default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_COMMANDS, value: "True"}]}
+- {template: "aaa accounting commands <NUM> default stop-only group <WORD>", emits: [{key: AAA.ACCOUNTING_COMMANDS, value: "True"}]}
+- {template: "aaa accounting connection default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_CONNECTION, value: "True"}]}
+- {template: "aaa accounting connection default stop-only group <WORD>", emits: [{key: AAA.ACCOUNTING_CONNECTION, value: "True"}]}
+- {template: "aaa accounting network default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_NETWORK, value: "True"}]}
+- {template: "aaa accounting network default stop-only group <WORD>", emits: [{key: AAA.ACCOUNTING_NETWORK, value: "True"}]}
+- {template: "aaa accounting system default start-stop group <WORD>", emits: [{key: AAA.ACCOUNTING_SYSTEM, value: "True"}]}
+- {template: "aaa accounting system default stop-only group <WORD>", emits: [{key: AAA.ACCOUNTING_SYSTEM, value: "True"}]}
+- {template: "aaa authorization commands <NUM> default <ENUM>", emits: [{key: AAA.AUTHZ_COMMANDS, value: "True"}]}
+- {template: "aaa authorization commands <NUM> default group <WORD> <ENUM>", emits: [{key: AAA.AUTHZ_COMMANDS, value: "True"}]}
+- {template: "aaa authorization exec default <ENUM>", emits: [{key: AAA.AUTHZ_EXEC, value: "True"}]}
+- {template: "aaa authorization exec default group <WORD> <ENUM>", emits: [{key: AAA.AUTHZ_EXEC, value: "True"}]}
+- {template: "aaa group server <WORD> <WORD:grp>", emits: [{key: AAA.SERVER_GROUPS, value: "grp"}]}
+- {template: "aaa group server <WORD> <WORD:grp> > ip radius source-interface <IFNAME:iface>", emits: [{key: IP.RADIUS_SOURCE_INTERFACE, value: "iface"}]}
+- {template: "aaa group server <WORD> <WORD:grp> > ip tacacs source-interface <IFNAME:iface>", emits: [{key: IP.TACACS_SOURCE_INTERFACE, value: "iface"}]}
+- {template: "aaa group server <WORD> <WORD:grp> > server name <WORD>", emits: [{key: AAA.SERVER_GROUPS, value: "grp"}]}
+
+# ---- local user accounts
+- template: "username <WORD:user> privilege <NUM:priv> algorithm-type scrypt secret <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}, {key: USER.HASH_ALGORITHM, value: "'scrypt'"}]
+- template: "username <WORD:user> privilege <NUM:priv> algorithm-type sha256 secret <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}, {key: USER.HASH_ALGORITHM, value: "'sha256'"}]
+- template: "username <WORD:user> privilege <NUM:priv> algorithm-type md5 secret <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}, {key: USER.HASH_ALGORITHM, value: "'md5'"}]
+- template: "username <WORD:user> privilege <NUM:priv> secret <NUM:type> <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits:
+    - {key: USER.PRIVILEGE, value: "priv"}
+    - {key: USER.HASH_ALGORITHM, value: "enum_map(type, {5: 'md5', 8: 'sha256', 9: 'scrypt'})"}
+- template: "username <WORD:user> privilege <NUM:priv> secret <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}, {key: USER.HASH_ALGORITHM, value: "'md5'"}]
+- template: "username <WORD:user> privilege <NUM:priv> password <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "priv"}, {key: USER.HASH_ALGORITHM, value: "'type7'"}]
+- template: "username <WORD:user> password <SECRET>"
+  scope: {type: USER, id: "{user}"}
+  emits: [{key: USER.PRIVILEGE, value: "1"}, {key: USER.HASH_ALGORITHM, value: "'plaintext'"}]
+
+# ---- enable password
+- {template: "enable algorithm-type scrypt secret <SECRET>", emits: [{key: ENABLE.HASH_ALGORITHM, value: "'scrypt'"}]}
+- {template: "enable algorithm-type sha256 secret <SECRET>", emits: [{key: ENABLE.HASH_ALGORITHM, value: "'sha256'"}]}
+- {template: "enable algorithm-type md5 secret <SECRET>", emits: [{key: ENABLE.HASH_ALGORITHM, value: "'md5'"}]}
+- template: "enable secret <NUM:type> <SECRET>"
+  emits: [{key: ENABLE.HASH_ALGORITHM, value: "enum_map(type, {5: 'md5', 8: 'sha256', 9: 'scrypt', 0: 'plaintext'})"}]
+- {template: "enable secret <SECRET>", emits: [{key: ENABLE.HASH_ALGORITHM, value: "'md5'"}]}
+
+# ---- login policy
+- {template: "login on-failure log", emits: [{key: LOGIN.ON_FAILURE_LOG, value: "not negated"}]}
+- {template: "login on-success log", emits: [{key: LOGIN.ON_SUCCESS_LOG, value: "not negated"}]}
+- template: "login block-for <NUM:secs> attempts <NUM:tries> within <NUM:window>"
+  emits: [{key: LOGIN.BLOCK_FOR_SEC, value: "secs"}]
+- {template: "login delay <NUM>", emits: [{key: LOGIN.DELAY_SEC, value: "v1"}]}
+- {template: "login on-failure log every <NUM>", emits: [{key: LOGIN.ON_FAILURE_LOG_EVERY, value: "v1"}]}
+- {template: "login on-success log every <NUM>", emits: [{key: LOGIN.ON_SUCCESS_LOG_EVERY, value: "v1"}]}
+
+# ---- RADIUS
+- {template: "radius server <WORD>", emits: [{key: RADIUS.CONFIGURED, value: "True"}]}
+- {template: "radius server <WORD> > address ipv4 <IPV4:addr> auth-port <NUM> acct-port <NUM>", emits: [{key: RADIUS.SERVERS, value: "addr"}]}
+- {template: "radius server <WORD> > key <SECRET>", emits: [{key: RADIUS.KEY_CONFIGURED, value: "True"}]}
+- {template: "radius server <WORD> > retransmit <NUM:count>", emits: [{key: RADIUS.RETRANSMIT, value: "count"}]}
+- {template: "radius server <WORD:name> > timeout <NUM:sec>", emits: [{key: RADIUS.TIMEOUT_SEC, value: "sec"}]}
+- {template: "radius-server host <IPV4>", emits: [{key: RADIUS.SERVERS, value: "v1"}]}
+- {template: "radius-server host <IPV4> auth-port <NUM> acct-port <NUM>", emits: [{key: RADIUS.SERVERS, value: "v1"}]}
+- {template: "radius-server key <SECRET>", emits: [{key: RADIUS.KEY_CONFIGURED, value: "True"}]}
+- {template: "radius-server retransmit <NUM>", emits: [{key: RADIUS.RETRANSMIT, value: "v1"}]}
+- {template: "radius-server timeout <NUM>", emits: [{key: RADIUS.TIMEOUT_SEC, value: "v1"}]}
+
+# ---- TACACS+
+- {template: "tacacs server <WORD>", emits: [{key: TACACS.CONFIGURED, value: "True"}]}
+- {template: "tacacs server <WORD:name> > address ipv4 <IPV4:addr>", emits: [{key: TACACS.SERVERS, value: "addr"}]}
+- {template: "tacacs server <WORD> > key <SECRET>", emits: [{key: TACACS.KEY_CONFIGURED, value: "True"}]}
+- {template: "tacacs server <WORD> > single-connection", emits: [{key: TACACS.SINGLE_CONNECTION, value: "True"}]}
+- {template: "tacacs server <WORD:name> > timeout <NUM:sec>", emits: [{key: TACACS.TIMEOUT_SEC, value: "sec"}]}
+- {template: "tacacs-server host <IPV4>", emits: [{key: TACACS.SERVERS, value: "v1"}]}
+- {template: "tacacs-server host <IPV4> key <SECRET>", emits: [{key: TACACS.SERVERS, value: "v1"}]}
+- {template: "tacacs-server key <SECRET>", emits: [{key: TACACS.KEY_CONFIGURED, value: "True"}]}
+- {template: "tacacs-server timeout <NUM>", emits: [{key: TACACS.TIMEOUT_SEC, value: "v1"}]}
+
+# ---- logging
+- {template: "logging host <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v1"}]}
+- {template: "logging trap <ENUM>", emits: [{key: LOGGING.TRAP_SEVERITY, value: "syslog_level(v1)"}]}
+- {template: "logging console <ENUM>", emits: [{key: LOGGING.CONSOLE_SEVERITY, value: "syslog_level(v1)"}]}
+- {template: "logging console", emits: [{key: LOGGING.ENABLED, value: "not negated"}]}
+- {template: "logging buffered <NUM>", emits: [{key: LOGGING.BUFFER_SIZE_BYTES, value: "v1"}]}
+- {template: "logging buffered <NUM> <ENUM>", emits: [{key: LOGGING.BUFFER_SIZE_BYTES, value: "v1"}]}
+- {template: "logging source-interface <IFNAME>", emits: [{key: LOGGING.SOURCE_INTERFACE, value: "v1"}]}
+- {template: "logging monitor <ENUM>", emits: [{key: LOGGING.MONITOR_SEVERITY, value: "syslog_level(v1)"}]}
+- {template: "logging on", emits: [{key: LOGGING.ENABLED, value: "True"}]}
+
+# ---- NTP
+- {template: "ntp", emits: [{key: NTP.CONFIGURED, value: "True"}]}
+- {template: "ntp authenticate", emits: [{key: NTP.AUTHENTICATE, value: "not negated"}]}
+- {template: "ntp server <IPV4>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "ntp server <IPV4> key <NUM>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "ntp server <IPV4:srv> key <NUM> <SECRET>", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp server <IPV4:srv> prefer", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp server vrf <WORD> <IPV4:srv> key <NUM>", emits: [{key: NTP.SERVERS, value: "srv"}]}
+- {template: "ntp source <IFNAME>", emits: [{key: NTP.SOURCE_INTERFACE, value: "v1"}]}
+- {template: "ntp authentication-key <NUM> md5 <SECRET>", emits: [{key: NTP.AUTH_KEY_IDS, value: "[v1]"}]}
+- {template: "ntp authentication-key <NUM> sha1 <SECRET>", emits: [{key: NTP.AUTH_KEY_IDS, value: "[v1]"}]}
+- {template: "ntp trusted-key <NUM>", emits: [{key: NTP.TRUSTED_KEY_IDS, value: "[v1]"}]}
+- {template: "ntp update-calendar", emits: [{key: NTP.UPDATE_CALENDAR, value: "True"}]}
+- {template: "ntp access-group peer <NUM>", emits: [{key: NTP.ACCESS_GROUPS, value: "[str(v1)]"}]}
+- {template: "ntp access-group query-only <NUM>", emits: [{key: NTP.ACCESS_GROUPS, value: "[str(v1)]"}]}
+- {template: "ntp access-group serve <NUM>", emits: [{key: NTP.ACCESS_GROUPS, value: "[str(v1)]"}]}
+- {template: "ntp access-group serve-only <NUM>", emits: [{key: NTP.ACCESS_GROUPS, value: "[str(v1)]"}]}
+
+# ---- SNMP
+- {template: "snmp-server", emits: [{key: SNMP.CONFIGURED, value: "True"}]}
+- {template: "snmp-server community <WORD>", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- template: "snmp-server community <SECRET> <WORD:access> <NUM:acl>"
+  emits: [{key: SNMP.COMMUNITIES, value: "v1"}]
+- {template: "snmp-server community <SECRET> <WORD> <WORD>", emits: [{key: SNMP.COMMUNITIES, value: "v1"}]}
+- {template: "snmp-server host <IPV4> <WORD> snmp", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> version <NUM> priv snmpadmin", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server host <IPV4> version <WORD> <WORD>", emits: [{key: SNMP.TRAP_HOSTS, value: "v1"}]}
+- {template: "snmp-server chassis-id <WORD>", emits: [{key: SNMP.CHASSIS_ID, value: "v1"}]}
+- {template: "snmp-server location <TEXT>", emits: [{key: SNMP.LOCATION, value: "v1"}]}
+- {template: "snmp-server contact <TEXT>", emits: [{key: SNMP.CONTACT, value: "v1"}]}
+- {template: "snmp-server enable traps config", emits: [{key: SNMP.TRAPS_ENABLED, value: "True"}]}
+- {template: "snmp-server enable traps snmp <WORD...>", emits: [{key: SNMP.TRAPS_ENABLED, value: "True"}]}
+- {template: "snmp-server enable traps syslog", emits: [{key: SNMP.TRAPS_ENABLED, value: "True"}]}
+- {template: "snmp-server group <WORD:grp> v3 auth access <NUM>", emits: [{key: SNMP.V3_GROUPS, value: "[grp]"}]}
+- {template: "snmp-server group <WORD:grp> v3 noauth access <NUM>", emits: [{key: SNMP.V3_GROUPS, value: "[grp]"}]}
+- {template: "snmp-server group <WORD:grp> v3 priv access <NUM>", emits: [{key: SNMP.V3_GROUPS, value: "[grp]"}]}
+- {template: "snmp-server group <WORD:grp> v3 priv read <WORD> write <WORD> access <NUM>", emits: [{key: SNMP.V3_GROUPS, value: "[grp]"}]}
+- {template: "snmp-server ifindex persist", emits: [{key: SNMP.IFINDEX_PERSIST, value: "not negated"}]}
+- {template: "snmp-server trap-source <IFNAME>", emits: [{key: SNMP.TRAP_SOURCE, value: "v1"}]}
+- emits:
+    - {key: SNMP.V3_AUTH_PROTOCOL, value: "'md5'"}
+    - {key: SNMP.V3_PRIV_PROTOCOL, value: "'des'"}
+  template: "snmp-server user snmpadmin <WORD> v3 auth md5 <SECRET> priv des <SECRET>"
+- {template: "snmp-server user snmpadmin <WORD> v3 auth sha <SECRET>", emits: [{key: SNMP.V3_AUTH_PROTOCOL, value: "'sha'"}]}
+- emits:
+    - {key: SNMP.V3_AUTH_PROTOCOL, value: "'sha'"}
+    - {key: SNMP.V3_PRIV_PROTOCOL, value: "'aes-' + str(v3)"}
+  template: "snmp-server user snmpadmin <WORD> v3 auth sha <SECRET> priv aes <NUM> <SECRET> access <NUM>"
+
+# ---- banners
+- {template: "banner login", emits: [{key: BANNER.LOGIN, value: "blob"}]}
+- {template: "banner motd", emits: [{key: BANNER.MOTD, value: "blob"}]}
+- {template: "banner exec", emits: [{key: BANNER.EXEC, value: "blob"}]}
+
+# ---- interfaces
+- {template: "interface <IFNAME:ifname>", scope: {type: INTERFACE, id: "{ifname}"}}
+- template: "interface <IFNAME:ifname> > description <TEXT:desc>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.DESCRIPTION, value: "desc"}]
+- template: "interface <IFNAME:ifname> > shutdown"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.SHUTDOWN, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip proxy-arp"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.PROXY_ARP, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip access-group <WORD:acl> in"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.ACL_IN, value: "acl"}]
+- template: "interface <IFNAME:ifname> > ip access-group <WORD:acl> out"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.ACL_OUT, value: "acl"}]
+- template: "interface <IFNAME:ifname> > ip verify unicast source reachable-via <ENUM>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.URPF, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip verify unicast source reachable-via rx allow-default"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.URPF, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip address <IPV4:addr> <MASK:mask>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.IP_ADDRESS, value: "str(addr) + '/' + str(mask_to_prefix(mask))"}]
+- template: "interface <IFNAME:ifname> > ip address <IPV4:addr> <MASK:mask> secondary"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.IP_ADDRESS, value: "str(addr) + '/' + str(mask_to_prefix(mask))"}]
+- template: "interface <IFNAME:ifname> > ip directed-broadcast"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.DIRECTED_BROADCAST, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip redirects"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.IP_REDIRECTS, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip unreachables"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.IP_UNREACHABLES, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > ip ospf message-digest-key <NUM:key_id> md5 <SECRET>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.OSPF_AUTH, value: "'md5'"}, {key: INTERFACE.OSPF_AUTH_KEY_ID, value: "key_id"}]
+- template: "interface <IFNAME:ifname> > ip authentication key-chain eigrp <NUM> <WORD:kc>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.EIGRP_AUTH_KEY_CHAIN, value: "kc"}]
+- template: "interface <IFNAME:ifname> > ip authentication mode eigrp <NUM> md5"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.EIGRP_AUTH, value: "'md5'"}]
+- template: "interface <IFNAME:ifname> > spanning-tree bpduguard <ENUM:mode>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.BPDUGUARD, value: "mode == 'enable'"}]
+- template: "interface <IFNAME:ifname> > spanning-tree portfast"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.PORTFAST, value: "not negated"}]
+- template: "interface <IFNAME:ifname> > carrier-delay msec <NUM:ms>"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.CARRIER_DELAY_MSEC, value: "ms"}]
+- template: "interface <IFNAME:ifname> > dampening"
+  scope: {type: INTERFACE, id: "{ifname}"}
+  emits: [{key: INTERFACE.DAMPENING, value: "not negated"}]
+
+# ---- access-lists
+- {template: "access-list <NUM> deny any", emits: [{key: ACL.DENY_ANY_LOG, value: "False"}]}
+- {template: "access-list <NUM> deny any log", emits: [{key: ACL.DENY_ANY_LOG, value: "True"}]}
+- {template: "access-list <NUM> deny ip any any log", emits: [{key: ACL.DENY_ANY_LOG, value: "True"}]}
+- {template: "access-list <NUM> permit <IPV4>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "access-list <NUM> permit <IPV4> <MASK>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "access-list <NUM> permit tcp <IPV4> <MASK> any eq <NUM>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "access-list <NUM> permit tcp any host <IPV4> eq <NUM>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "access-list <NUM> permit tcp host <IPV4> any eq <NUM>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list extended <WORD>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list extended <WORD> > deny ip <IPV4> <MASK> any log", emits: [{key: ACL.DENY_ANY_LOG, value: "True"}]}
+- {template: "ip access-list extended <WORD> > deny ip any any log", emits: [{key: ACL.DENY_ANY_LOG, value: "True"}]}
+- {template: "ip access-list extended <WORD> > deny ip host <IPV4> any log", emits: [{key: ACL.DENY_ANY_LOG, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit ip any any", emits: [{key: ACL.PERMIT_ANY, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit tcp <IPV4> <MASK> any eq <NUM>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit tcp any <IPV4> <MASK> eq <NUM> log", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit tcp any any established", emits: [{key: ACL.PERMIT_ESTABLISHED, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit tcp host <IPV4> any eq <NUM>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit tcp host <IPV4> eq bgp host <IPV4> log", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list extended <WORD> > permit tcp host <IPV4> host <IPV4> eq bgp log", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list standard <WORD>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+- {template: "ip access-list standard <WORD> > deny any log", emits: [{key: ACL.DENY_ANY_LOG, value: "True"}]}
+- {template: "ip access-list standard <WORD> > permit <IPV4>", emits: [{key: ACL.CONFIGURED, value: "True"}]}
+
+# ---- archive / config change logging
+- {template: "archive", emits: [{key: ARCHIVE.CONFIGURED, value: "not negated"}]}
+- {template: "archive > log config", emits: [{key: ARCHIVE.LOG_CONFIG, value: "True"}]}
+- {template: "archive > log config > logging <ENUM>", emits: [{key: ARCHIVE.LOG_CONFIG, value: "True"}]}
+
+# ---- key chains (routing auth)
+- {template: "key chain <WORD>", emits: [{key: KEY_CHAIN.CONFIGURED, value: "True"}]}
+- {template: "key chain <WORD> > key <NUM>", emits: [{key: KEY_CHAIN.CONFIGURED, value: "True"}]}
+- {template: "key chain <WORD> > key <NUM> > accept-lifetime <TIME> <WORD> <NUM> <NUM> infinite", emits: [{key: KEY_CHAIN.LIFETIME_SET, value: "True"}]}
+- {template: "key chain <WORD> > key <NUM> > key-string <SECRET>", emits: [{key: KEY_CHAIN.KEY_STRING_SET, value: "True"}]}
+- {template: "key chain <WORD> > key <NUM> > send-lifetime <TIME> <WORD> <NUM> <NUM> infinite", emits: [{key: KEY_CHAIN.LIFETIME_SET, value: "True"}]}
+
+# ---- routing protocols: BGP
+- {template: "router bgp <NUM:asn>", emits: [{key: ROUTING.BGP_AS, value: "asn"}]}
+- {template: "router bgp <NUM> > bgp fast-external-fallover", emits: [{key: ROUTING.BGP_FAST_FALLOVER, value: "not negated"}]}
+- {template: "router bgp <NUM> > bgp log-neighbor-changes", emits: [{key: ROUTING.BGP_LOG_NEIGHBOR_CHANGES, value: "True"}]}
+- {template: "router bgp <NUM> > neighbor <IPV4:peer> maximum-prefix <NUM:n>", emits: [{key: ROUTING.BGP_MAX_PREFIX, value: "n"}]}
+- {template: "router bgp <NUM> > neighbor <IPV4> password <SECRET>", emits: [{key: ROUTING.BGP_NEIGHBOR_AUTH, value: "True"}]}
+- {template: "router bgp <NUM> > neighbor <IPV4:peer> remote-as <NUM>", emits: [{key: ROUTING.BGP_NEIGHBORS, value: "[peer]"}]}
+- {template: "router bgp <NUM> > neighbor <IPV4> ttl-security hops <NUM>", emits: [{key: ROUTING.BGP_TTL_SECURITY, value: "True"}]}
+- {template: "router bgp <NUM> > neighbor <IPV4:peer> update-source <IFNAME>", emits: [{key: ROUTING.BGP_NEIGHBORS, value: "[peer]"}]}
+
+# ---- routing protocols: OSPF
+- {template: "router ospf <NUM:pid>", emits: [{key: ROUTING.OSPF_PROCESS_ID, value: "pid"}]}
+- {template: "router ospf <NUM> > area <NUM> authentication", emits: [{key: ROUTING.OSPF_AUTH_ENABLED, value: "True"}]}
+- {template: "router ospf <NUM> > area <NUM> authentication message-digest", emits: [{key: ROUTING.OSPF_AUTH_MD5, value: "True"}]}
+- {template: "router ospf <NUM:pid> > network <IPV4> <MASK> area <NUM>", emits: [{key: ROUTING.OSPF_PROCESS_ID, value: "pid"}]}
+- {template: "router ospf <NUM> > passive-interface <IFNAME:iface>", emits: [{key: ROUTING.OSPF_PASSIVE_INTERFACES, value: "[iface]"}]}
+- {template: "router ospf <NUM> > passive-interface default", emits: [{key: ROUTING.OSPF_PASSIVE_DEFAULT, value: "True"}]}
+- {template: "router ospf <NUM> > router-id <IPV4:rid>", emits: [{key: ROUTING.OSPF_ROUTER_ID, value: "rid"}]}
+
+# ---- routing protocols: EIGRP (classic numbered)
+- {template: "router eigrp <NUM:asn>", emits: [{key: ROUTING.EIGRP_AS, value: "str(asn)"}]}
+- {template: "router eigrp <NUM> > eigrp stub connected summary", emits: [{key: ROUTING.EIGRP_STUB, value: "True"}]}
+- {template: "router eigrp <NUM:asn> > network <IPV4>", emits: [{key: ROUTING.EIGRP_AS, value: "str(asn)"}]}
+- {template: "router eigrp <NUM:asn> > network <IPV4> <MASK>", emits: [{key: ROUTING.EIGRP_AS, value: "str(asn)"}]}
+- {template: "router eigrp <NUM> > passive-interface <IFNAME:iface>", emits: [{key: ROUTING.EIGRP_PASSIVE_INTERFACES, value: "[iface]"}]}
+- {template: "router eigrp <NUM> > passive-interface default", emits: [{key: ROUTING.EIGRP_PASSIVE_DEFAULT, value: "True"}]}
+
+# ---- routing protocols: EIGRP (named)
+- {template: "router eigrp <WORD:proc>", emits: [{key: ROUTING.EIGRP_AS, value: "proc"}]}
+- {template: "router eigrp <WORD> > address-family ipv4 unicast autonomous-system <NUM:asn>", emits: [{key: ROUTING.EIGRP_AS, value: "str(asn)"}]}
+- template: "router eigrp <WORD:proc> > address-family ipv4 unicast autonomous-system <NUM:asn> > af-interface <IFNAME:iface>"
+  scope: {type: INTERFACE, id: "{iface}"}
+  emits: [{key: ROUTING.EIGRP_AS, value: "str(asn)"}]
+- template: "router eigrp <WORD:proc> > address-family ipv4 unicast autonomous-system <NUM:asn> > af-interface <IFNAME:iface> > authentication key-chain <WORD:kc>"
+  scope: {type: INTERFACE, id: "{iface}"}
+  emits: [{key: INTERFACE.EIGRP_AUTH_KEY_CHAIN, value: "kc"}]
+- template: "router eigrp <WORD:proc> > address-family ipv4 unicast autonomous-system <NUM:asn> > af-interface <IFNAME:iface> > authentication mode md5"
+  scope: {type: INTERFACE, id: "{iface}"}
+  emits: [{key: INTERFACE.EIGRP_AUTH, value: "'md5'"}]
+- template: "router eigrp <WORD:proc> > address-family ipv4 unicast autonomous-system <NUM:asn> > af-interface <IFNAME:iface> > passive-interface"
+  scope: {type: INTERFACE, id: "{iface}"}
+  emits: [{key: INTERFACE.EIGRP_PASSIVE, value: "True"}]
+- {template: "router eigrp <WORD> > address-family ipv4 unicast autonomous-system <NUM> > af-interface default", emits: [{key: ROUTING.EIGRP_AS, value: "str(v2)"}]}
+- {template: "router eigrp <WORD> > address-family ipv4 unicast autonomous-system <NUM> > af-interface default > passive-interface", emits: [{key: ROUTING.EIGRP_PASSIVE_DEFAULT, value: "True"}]}
+- {template: "router eigrp <WORD> > address-family ipv4 unicast autonomous-system <NUM> > exit-af-topology", emits: [{key: ROUTING.EIGRP_AS, value: "str(v2)"}]}
+- {template: "router eigrp <WORD> > address-family ipv4 unicast autonomous-system <NUM> > network <IPV4> <MASK>", emits: [{key: ROUTING.EIGRP_AS, value: "str(v2)"}]}
+- {template: "router eigrp <WORD> > address-family ipv4 unicast autonomous-system <NUM> > topology base", emits: [{key: ROUTING.EIGRP_AS, value: "str(v2)"}]}
+
+# ---- archive learning artifacts (learner miscategorised as username children)
+- {template: "username <WORD> privilege <NUM> password <SECRET> > log config", emits: [{key: ARCHIVE.LOG_CONFIG, value: "True"}]}
+- {template: "username <WORD> privilege <NUM> password <SECRET> > log config > hidekeys", emits: [{key: ARCHIVE.LOG_HIDEKEYS, value: "True"}]}
+- {template: "username <WORD> privilege <NUM> password <SECRET> > log config > logging <ENUM>", emits: [{key: ARCHIVE.LOG_CONFIG, value: "True"}]}
+- {template: "username <WORD> privilege <NUM> password <SECRET> > log config > notify syslog contenttype plaintext", emits: [{key: ARCHIVE.LOG_NOTIFY_SYSLOG, value: "True"}]}
+- {template: "username <WORD> privilege <NUM> password <SECRET> > maximum <NUM:max>", emits: [{key: ARCHIVE.MAX_ENTRIES, value: "max"}]}
+- {template: "username <WORD> privilege <NUM> password <SECRET> > path <WORD:pth>", emits: [{key: ARCHIVE.PATH, value: "pth"}]}
+- {template: "username <WORD> privilege <NUM> password <SECRET> > time-period <NUM:mins>", emits: [{key: ARCHIVE.TIME_PERIOD_MIN, value: "mins"}]}

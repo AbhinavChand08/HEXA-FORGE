@@ -1,0 +1,27 @@
+# Juniper Junos: brace or set format, detected per file
+family: junos
+dialect: null
+dialect_params:
+  by_dialect:
+    brace:
+      negation_prefixes: []
+    set:
+      comment_prefixes: ['#', '!']
+      affirm_prefixes: [set]
+      negation_prefixes: [delete]
+fingerprints:
+  - {pattern: '## Last commit', weight: 1}
+  - {pattern: '^system \{', weight: 1}
+  - {pattern: '^routing-options \{', weight: 1}
+  - {pattern: '^protocols \{', weight: 1}
+  - {pattern: '^security \{', weight: 1}
+  - {pattern: '^set system services ', weight: 1}
+  - {pattern: '^set system login ', weight: 1}
+  - {pattern: '^set system syslog ', weight: 1}
+  - {pattern: '^set system ntp ', weight: 1}
+  - {pattern: '^set snmp ', weight: 1}
+  - {pattern: '^set routing-options ', weight: 1}
+  - {pattern: '^set protocols ', weight: 1}
+  - {pattern: '^set security ', weight: 1}
+  - {pattern: '^delete system ', weight: 1}
+threshold: 1

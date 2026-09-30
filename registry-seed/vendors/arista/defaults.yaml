@@ -1,0 +1,4 @@
+# What ABSENCE of a command means on Arista EOS (see cisco/defaults.yaml for the format).
+
+- {key: LINE.EXEC_TIMEOUT_SEC, value: 0, note: "no idle timeout"}
+- {key: SSH.IDLE_TIMEOUT_SEC, value: 0, note: "no idle timeout"}

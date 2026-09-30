@@ -1,0 +1,30 @@
+# Canonical keys: access control lists.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: ACL.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: access_control
+  description: At least one access list is configured on this device
+  aliases: [access-list, ip access-list]
+
+- key: ACL.DENY_ANY_LOG
+  type: bool
+  scope: GLOBAL
+  category: access_control
+  description: At least one ACL has an explicit deny-any rule with logging
+  aliases: [access-list deny any log]
+
+- key: ACL.PERMIT_ANY
+  type: bool
+  scope: GLOBAL
+  category: access_control
+  description: At least one ACL has a permit-any rule (unrestricted pass)
+  aliases: [permit ip any any]
+
+- key: ACL.PERMIT_ESTABLISHED
+  type: bool
+  scope: GLOBAL
+  category: access_control
+  description: At least one ACL permits TCP established sessions (stateful TCP return traffic)
+  aliases: [permit tcp established]

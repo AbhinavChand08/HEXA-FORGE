@@ -1,0 +1,13 @@
+# DISA STIG (Security Technical Implementation Guide) rules for network infrastructure.
+# Operators: eq ne lt le gt ge between in not_in contains not_contains present absent
+
+- {id: STIG-NET-001, benchmark: STIG, key: LINE.TRANSPORT_INPUT, operator: not_contains,
+   expected: [telnet, all], scope_selector: {type: LINE, id_regex: "^vty"}, severity: high,
+   title: "STIG NET-001: VTY lines must not permit Telnet (unencrypted access)"}
+- {id: STIG-NET-002, benchmark: STIG, key: SSH.VERSION, operator: eq, expected: 2, severity: high,
+   title: "STIG NET-002: SSH protocol version 2 must be used exclusively"}
+- {id: STIG-NET-003, benchmark: STIG, key: CRYPTO.RSA_MODULUS_BITS, operator: ge, expected: 2048, severity: medium,
+   title: "STIG NET-003: RSA host key must be at least 2048 bits"}
+- {id: STIG-NET-004, benchmark: STIG, key: SNMP.COMMUNITIES, operator: not_contains,
+   expected: [public, private], severity: critical,
+   title: "STIG NET-004: Default SNMP community strings must not be used"}

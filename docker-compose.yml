@@ -1,0 +1,79 @@
+# Hexa forge: registry-db + api + ui
+#   docker compose up -d --build
+#   open http://localhost:3000
+name: hexaforge
+
+services:
+  registry-db:
+    image: pgvector/pgvector:pg16
+    container_name: sih-registry-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sih}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sih}
+      POSTGRES_DB: ${POSTGRES_DB:-sih_registry}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - registry-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    container_name: sih-api
+    environment:
+      DATABASE_URL: postgresql://sih:sih@registry-db:5432/sih_registry
+      SIH_SEED_DIR: /app/registry-seed
+      SIH_OBJECT_STORE: /var/sih/raw
+      SIH_ML_SERVICE_URL: http://ml:8001
+    volumes:
+      - api-data:/var/sih
+      - ./registry-seed:/app/registry-seed:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      registry-db:
+        condition: service_healthy
+      ml:
+        condition: service_started
+    restart: unless-stopped
+
+  ml:
+    build:
+      context: .
+      dockerfile: ml/Dockerfile
+    container_name: sih-ml
+    environment:
+      DATABASE_URL: postgresql://sih:sih@registry-db:5432/sih_registry
+      SIH_EMBEDDER: ${SIH_EMBEDDER:-hash}
+      SIH_ML_MODEL_VERSION: ${SIH_ML_MODEL_VERSION:-heuristic-0}
+    ports:
+      - "127.0.0.1:8001:8001"
+    depends_on:
+      registry-db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: sih-ui
+    environment:
+      BACKEND_URL: http://api:8000
+      HOSTNAME: "0.0.0.0"
+      PORT: "3000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  registry-data:
+  api-data:

@@ -1,0 +1,160 @@
+# Canonical keys: interfaces.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: INTERFACE.SHUTDOWN
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Interface is administratively down
+  aliases: [interface shutdown, admin down, disable interface]
+
+- key: INTERFACE.PROXY_ARP
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Proxy ARP is enabled on the interface
+  aliases: [ip proxy-arp]
+
+- key: INTERFACE.URPF
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Unicast reverse-path forwarding check is enabled on the interface
+  aliases: [ip verify unicast source reachable-via, rpf-check]
+
+- key: INTERFACE.ACL_IN
+  type: string
+  scope: INTERFACE
+  category: interface
+  description: Inbound access list applied to the interface
+  aliases: [ip access-group in, filter input]
+
+- key: INTERFACE.MGMT_ACCESS
+  type: string
+  scope: INTERFACE
+  cardinality: list
+  category: interface
+  description: Management protocols allowed on the interface
+  aliases: [allowaccess, management access]
+
+- key: INTERFACE.IP_ADDRESS
+  type: cidr
+  scope: INTERFACE
+  category: interface
+  description: IP address and prefix length assigned to the interface
+  aliases: [ip address, interface address]
+
+- key: INTERFACE.DIRECTED_BROADCAST
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Directed broadcast forwarding is enabled on the interface
+  aliases: [ip directed-broadcast]
+
+- key: INTERFACE.IP_REDIRECTS
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: ICMP redirect messages are sent from this interface
+  aliases: [ip redirects]
+
+- key: INTERFACE.IP_UNREACHABLES
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: ICMP unreachable messages are sent from this interface
+  aliases: [ip unreachables]
+
+- key: INTERFACE.ACL_OUT
+  type: string
+  scope: INTERFACE
+  category: interface
+  description: Outbound access list applied to the interface
+  aliases: [ip access-group out, filter output]
+
+- key: INTERFACE.BPDUGUARD
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Spanning-tree BPDU guard is enabled on the interface
+  aliases: [spanning-tree bpduguard enable]
+
+- key: INTERFACE.PORTFAST
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Spanning-tree portfast bypasses STP convergence on this interface
+  aliases: [spanning-tree portfast]
+
+- key: INTERFACE.DESCRIPTION
+  type: string
+  scope: INTERFACE
+  category: interface
+  description: Human-readable description assigned to the interface
+  aliases: [description, interface description]
+
+- key: INTERFACE.CDP_ENABLED
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: CDP is enabled on this specific interface
+  aliases: [cdp enable]
+
+- key: INTERFACE.OSPF_AUTH
+  type: enum
+  scope: INTERFACE
+  category: interface
+  description: OSPF authentication type configured on this interface
+  enum_values: [none, plain, md5]
+  aliases: [ip ospf authentication, ospf auth-type]
+
+- key: INTERFACE.OSPF_AUTH_KEY_ID
+  type: int
+  scope: INTERFACE
+  category: interface
+  description: OSPF message-digest authentication key ID on this interface
+  aliases: [ip ospf message-digest-key]
+
+- key: INTERFACE.EIGRP_AUTH
+  type: enum
+  scope: INTERFACE
+  category: interface
+  description: EIGRP authentication mode on this interface
+  enum_values: [md5, hmac-sha-256]
+  aliases: [ip authentication mode eigrp]
+
+- key: INTERFACE.EIGRP_AUTH_KEY_CHAIN
+  type: string
+  scope: INTERFACE
+  category: interface
+  description: EIGRP authentication key-chain name on this interface
+  aliases: [ip authentication key-chain eigrp]
+
+- key: INTERFACE.CARRIER_DELAY_MSEC
+  type: int
+  unit: ms
+  scope: INTERFACE
+  category: interface
+  description: Carrier delay in milliseconds before state changes propagate
+  aliases: [carrier-delay msec]
+
+- key: INTERFACE.DAMPENING
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: Route dampening is enabled on this interface
+  aliases: [dampening]
+
+- key: INTERFACE.EIGRP_PASSIVE
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: EIGRP does not send or receive hello packets on this interface
+  aliases: [eigrp passive-interface, passive-interface eigrp]
+
+- key: INTERFACE.OSPF_PASSIVE
+  type: bool
+  scope: INTERFACE
+  category: interface
+  description: OSPF does not send hello packets on this interface
+  aliases: [ospf passive-interface, passive-interface ospf]

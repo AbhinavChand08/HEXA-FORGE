@@ -1,0 +1,17 @@
+# Arista EOS
+family: arista
+dialect: indent
+dialect_params:
+  comment_prefixes: ['!']
+  block_terminators: [end, exit, exit-address-family]
+  negation_prefixes: ['no']
+  blob_starts:
+    - {start: banner, end: EOF}
+    - {start: comment, end: EOF}
+fingerprints:
+  - {pattern: '^service routing protocols model', weight: 1}
+  - {pattern: '^management api http-commands', weight: 1}
+  - {pattern: '^daemon TerminAttr', weight: 1}
+  - {pattern: '! device: ', weight: 1}
+  - {pattern: '^management ssh', weight: 1}
+threshold: 1

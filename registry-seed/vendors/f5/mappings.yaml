@@ -1,0 +1,123 @@
+# Reviewer-approved F5 BIG-IP mappings.
+
+# ---- auth password-policy
+- {template: "auth password-policy", ignore: true}
+- {template: "auth password-policy > expiration-warning <NUM>", ignore: true}
+- {template: "auth password-policy > lockout-duration <NUM>", emits: [{key: LOGIN.BLOCK_FOR_SEC, value: "v1"}]}
+- {template: "auth password-policy > max-duration <NUM>", ignore: true}
+- {template: "auth password-policy > max-login-failures <NUM>", ignore: true}
+- {template: "auth password-policy > min-duration <NUM>", ignore: true}
+- {template: "auth password-policy > minimum-length <NUM>", emits: [{key: PASSWORD.MIN_LENGTH, value: "v1"}]}
+- {template: "auth password-policy > password-memory <NUM>", ignore: true}
+- {template: "auth password-policy > policy-enforcement enabled", emits: [{key: PASSWORD.COMPLEXITY_ENABLED, value: "True"}]}
+- {template: "auth password-policy > required-lowercase <NUM>", ignore: true}
+- {template: "auth password-policy > required-numeric <NUM>", ignore: true}
+- {template: "auth password-policy > required-special <NUM>", ignore: true}
+- {template: "auth password-policy > required-uppercase <NUM>", ignore: true}
+
+# ---- auth radius
+- {template: "auth radius system-auth", ignore: true}
+- {template: "auth radius system-auth > servers <WORD>", ignore: true}
+- {template: "auth radius system-auth > service-type authenticate-only", ignore: true}
+- {template: "auth radius-server <WORD>", ignore: true}
+- {template: "auth radius-server <WORD> > port <NUM>", ignore: true}
+- {template: "auth radius-server <WORD> > secret <SECRET>", ignore: true}
+- {template: "auth radius-server <WORD> > server <IPV4>", ignore: true}
+- {template: "auth radius-server <WORD:name> > timeout <NUM:sec>", emits: [{key: RADIUS.TIMEOUT_SEC, value: "sec"}]}
+
+# ---- auth remote / source
+- {template: "auth remote-user", ignore: true}
+- {template: "auth remote-user > default-partition <WORD>", ignore: true}
+- {template: "auth remote-user > default-role no-access", ignore: true}
+- {template: "auth remote-user > remote-console-access disabled", ignore: true}
+- {template: "auth source", ignore: true}
+- {template: "auth source > fallback false", ignore: true}
+- {template: "auth source > type radius", ignore: true}
+
+# ---- cli global-settings
+- {template: "cli global-settings", ignore: true}
+- {template: "cli global-settings > audit enabled", ignore: true}
+- {template: "cli global-settings > idle-timeout <NUM:sec>", emits: [{key: ADMIN.SESSION_TIMEOUT_SEC, value: "sec"}]}
+
+# ---- net (network config)
+- {template: "net self <WORD>", ignore: true}
+- {template: "net self <WORD> > address <CIDR>", ignore: true}
+- {template: "net self <WORD> > allow-service", ignore: true}
+- {template: "net self <WORD> > allow-service > <WORD>", ignore: true}
+- {template: "net self <WORD> > allow-service none", ignore: true}
+- {template: "net self <WORD> > traffic-group <WORD>", ignore: true}
+- {template: "net self <WORD> > vlan <WORD>", ignore: true}
+- {template: "net vlan <WORD>", ignore: true}
+- {template: "net vlan <WORD> > interfaces", ignore: true}
+- {template: "net vlan <WORD> > interfaces > <NUM>", ignore: true}
+- {template: "net vlan <WORD> > tag <NUM>", ignore: true}
+
+# ---- sys db
+- {template: "sys db <WORD>", ignore: true}
+- {template: "sys db <WORD> > value <QSTR>", ignore: true}
+
+# ---- sys dns
+- {template: "sys dns", ignore: true}
+- {template: "sys dns > name-servers <IPV4>", ignore: true}
+- {template: "sys dns > search <WORD>", ignore: true}
+
+# ---- sys global-settings
+- {template: "sys global-settings", ignore: true}
+- {template: "sys global-settings > console-inactivity-timeout <NUM:sec>", emits: [{key: ADMIN.SESSION_TIMEOUT_SEC, value: "sec"}]}
+- {template: "sys global-settings > gui-security-banner enabled", emits: [{key: BANNER.LOGIN, value: "blob"}]}
+- {template: "sys global-settings > gui-security-banner-text <QSTR>", emits: [{key: BANNER.LOGIN, value: "v1"}]}
+- {template: "sys global-settings > hostname <WORD>", ignore: true}
+- {template: "sys global-settings > mgmt-dhcp disabled", ignore: true}
+
+# ---- sys httpd
+- {template: "sys httpd", ignore: true}
+- {template: "sys httpd > allow <CIDR>", ignore: true}
+- {template: "sys httpd > auth-pam-idle-timeout <NUM:sec>", emits: [{key: HTTP_SERVER.MAX_CONNECTIONS, value: "sec"}]}
+- {template: "sys httpd > include <QSTR>", ignore: true}
+- {template: "sys httpd > ssl-protocol <QSTR>", ignore: true}
+
+# ---- sys management
+- {template: "sys management-ip <CIDR>", ignore: true}
+- {template: "sys management-ip <CIDR> > description <TEXT>", ignore: true}
+- {template: "sys management-route default", ignore: true}
+- {template: "sys management-route default > gateway <IPV4>", ignore: true}
+- {template: "sys management-route default > network default", ignore: true}
+
+# ---- sys ntp
+- {template: "sys ntp", ignore: true}
+- {template: "sys ntp > servers <IPV4>", emits: [{key: NTP.SERVERS, value: "v1"}]}
+- {template: "sys ntp > timezone <WORD>", ignore: true}
+
+# ---- sys snmp
+- {template: "sys snmp", ignore: true}
+- {template: "sys snmp > agent-addresses <WORD>", ignore: true}
+- {template: "sys snmp > allowed-addresses <CIDR>", ignore: true}
+- {template: "sys snmp > allowed-addresses <IPV4>", ignore: true}
+- {template: "sys snmp > communities none", ignore: true}
+- {template: "sys snmp > sys-contact <QSTR>", ignore: true}
+- {template: "sys snmp > sys-location <QSTR>", ignore: true}
+- {template: "sys snmp > users", ignore: true}
+- {template: "sys snmp > users > <WORD>", ignore: true}
+- {template: "sys snmp > users > <WORD> > access ro", ignore: true}
+- {template: "sys snmp > users > <WORD> > auth-password <WORD>", ignore: true}
+- {template: "sys snmp > users > <WORD> > auth-protocol sha", ignore: true}
+- {template: "sys snmp > users > <WORD> > oid-subset <WORD>", ignore: true}
+- {template: "sys snmp > users > <WORD> > privacy-password <WORD>", ignore: true}
+- {template: "sys snmp > users > <WORD> > privacy-protocol aes", ignore: true}
+- {template: "sys snmp > users > <WORD> > username <WORD>", ignore: true}
+
+# ---- sys sshd
+- {template: "sys sshd", ignore: true}
+- {template: "sys sshd > allow <CIDR>", ignore: true}
+- {template: "sys sshd > banner enabled", emits: [{key: BANNER.LOGIN, value: "True"}]}
+- {template: "sys sshd > banner-text <QSTR>", emits: [{key: BANNER.LOGIN, value: "v1"}]}
+- template: "sys sshd > inactivity-timeout <NUM:sec>"
+  emits: [{key: SSH.IDLE_TIMEOUT_SEC, value: "sec"}]
+- {template: "sys sshd > include <QSTR>", ignore: true}
+
+# ---- sys syslog
+- {template: "sys syslog", ignore: true}
+- {template: "sys syslog > remote-servers", ignore: true}
+- {template: "sys syslog > remote-servers > <WORD>", ignore: true}
+- {template: "sys syslog > remote-servers > <WORD> > host <IPV4>", emits: [{key: LOGGING.HOSTS, value: "v2"}]}
+- {template: "sys syslog > remote-servers > <WORD> > remote-port <NUM>", ignore: true}

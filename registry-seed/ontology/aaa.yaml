@@ -1,0 +1,230 @@
+# Canonical keys: AAA and accounts.
+# type: int | float | bool | string | enum | ip | cidr     cardinality: single | list
+
+- key: AAA.NEW_MODEL
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: AAA access control model is enabled
+  aliases: [aaa new-model]
+
+- key: AAA.LOGIN_METHODS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: aaa
+  description: Ordered authentication methods for login
+  aliases: [aaa authentication login, authentication-order]
+
+- key: AAA.ACCOUNTING_EXEC
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Accounting records are sent for exec / shell sessions
+  aliases: [aaa accounting exec]
+
+- key: AAA.ACCOUNTING_COMMANDS
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Accounting records are sent for executed commands
+  aliases: [aaa accounting commands]
+
+- key: TACACS.SERVERS
+  type: ip
+  scope: GLOBAL
+  cardinality: list
+  category: aaa
+  description: TACACS+ server addresses
+  aliases: [tacacs-server host, tacacs server address]
+
+- key: TACACS.TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: aaa
+  description: TACACS+ server response timeout
+  aliases: [tacacs-server timeout]
+
+- key: RADIUS.TIMEOUT_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: aaa
+  description: RADIUS server response timeout
+  aliases: [radius-server timeout]
+
+- key: USER.PRIVILEGE
+  type: int
+  scope: USER
+  category: aaa
+  description: Privilege level of a local user account
+  aliases: [username privilege, user class]
+
+- key: USER.HASH_ALGORITHM
+  type: enum
+  scope: USER
+  category: aaa
+  description: Algorithm protecting a local user's password
+  enum_values: [plaintext, type7, md5, sha256, scrypt, sha512]
+  aliases: [algorithm-type, secret type, password hash]
+
+- key: ENABLE.HASH_ALGORITHM
+  type: enum
+  scope: GLOBAL
+  category: aaa
+  description: Algorithm protecting the enable / privileged-mode password
+  enum_values: [plaintext, type7, md5, sha256, scrypt, sha512]
+  aliases: [enable secret, enable algorithm-type]
+
+- key: LOGIN.ON_FAILURE_LOG
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Failed login attempts are logged
+  aliases: [login on-failure log]
+
+- key: LOGIN.ON_SUCCESS_LOG
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Successful logins are logged
+  aliases: [login on-success log]
+
+- key: LOGIN.BLOCK_FOR_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: aaa
+  description: Quiet period after too many failed logins
+  aliases: [login block-for, lockout duration]
+
+- key: AAA.ACCOUNTING_CONNECTION
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Accounting records are generated for connection sessions
+  aliases: [aaa accounting connection]
+
+- key: AAA.ACCOUNTING_NETWORK
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Accounting records are generated for network access sessions
+  aliases: [aaa accounting network]
+
+- key: AAA.ACCOUNTING_SYSTEM
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Accounting records are generated for system-level events
+  aliases: [aaa accounting system]
+
+- key: AAA.ENABLE_METHODS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: aaa
+  description: Ordered authentication methods for privileged mode (enable)
+  aliases: [aaa authentication enable]
+
+- key: AAA.AUTHZ_COMMANDS
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Authorization is checked before executing CLI commands
+  aliases: [aaa authorization commands]
+
+- key: AAA.AUTHZ_EXEC
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: Authorization is required to start an exec (shell) session
+  aliases: [aaa authorization exec]
+
+- key: AAA.SERVER_GROUPS
+  type: string
+  scope: GLOBAL
+  cardinality: list
+  category: aaa
+  description: AAA server group names configured on this device
+  aliases: [aaa group server]
+
+- key: LOGIN.DELAY_SEC
+  type: int
+  unit: seconds
+  scope: GLOBAL
+  category: aaa
+  description: Enforced pause between consecutive login attempts
+  aliases: [login delay]
+
+- key: LOGIN.ON_FAILURE_LOG_EVERY
+  type: int
+  scope: GLOBAL
+  category: aaa
+  description: Log a message after every N consecutive failed login attempts
+  aliases: [login on-failure log every]
+
+- key: LOGIN.ON_SUCCESS_LOG_EVERY
+  type: int
+  scope: GLOBAL
+  category: aaa
+  description: Log a message after every N successful logins
+  aliases: [login on-success log every]
+
+- key: RADIUS.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: At least one RADIUS server block is defined
+  aliases: [radius server]
+
+- key: RADIUS.SERVERS
+  type: ip
+  scope: GLOBAL
+  cardinality: list
+  category: aaa
+  description: RADIUS server addresses
+  aliases: [radius-server host, radius server address]
+
+- key: RADIUS.RETRANSMIT
+  type: int
+  scope: GLOBAL
+  category: aaa
+  description: Number of times the device retransmits a RADIUS request before giving up
+  aliases: [radius-server retransmit, radius retransmit]
+
+- key: RADIUS.KEY_CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: A shared secret key is configured for RADIUS authentication
+  aliases: [radius-server key, radius server key]
+
+- key: RADIUS.SOURCE_INTERFACE
+  type: string
+  scope: GLOBAL
+  category: aaa
+  description: Source interface used for RADIUS traffic
+  aliases: [ip radius source-interface]
+
+- key: TACACS.CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: At least one TACACS+ server block is defined
+  aliases: [tacacs server]
+
+- key: TACACS.KEY_CONFIGURED
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: A shared secret key is configured for TACACS+ authentication
+  aliases: [tacacs-server key, tacacs server key]
+
+- key: TACACS.SINGLE_CONNECTION
+  type: bool
+  scope: GLOBAL
+  category: aaa
+  description: A single persistent TCP connection is used per TACACS+ server
+  aliases: [tacacs server single-connection]

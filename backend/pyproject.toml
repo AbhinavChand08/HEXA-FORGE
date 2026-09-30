@@ -1,0 +1,28 @@
+[project]
+name = "sih26155-backend"
+version = "0.5.0"
+description = "SIH 26155 config normalization and compliance auditing: backend"
+requires-python = ">=3.10"
+dependencies = [
+    "drain3",
+    "simpleeval",
+    "psycopg[binary]",
+    "PyYAML",
+    "alembic",
+    "SQLAlchemy>=2",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+ml = ["sentence-transformers", "scikit-learn"]
+test = ["pytest", "pgserver"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+# backend/ for `app`, the repo root for `ml`
+pythonpath = [".", ".."]
+testpaths = ["tests"]

@@ -1,0 +1,14 @@
+# MikroTik RouterOS
+family: mikrotik
+dialect: indent
+dialect_params:
+  comment_prefixes: ['#']
+  section_prefixes: [/]
+  split_key_value: true
+  negation_prefixes: []
+fingerprints:
+  - {pattern: '^/ip service', weight: 1}
+  - {pattern: '^/system identity', weight: 1}
+  - {pattern: '^/interface ', weight: 1}
+  - {pattern: '^/ip firewall', weight: 1}
+threshold: 1
